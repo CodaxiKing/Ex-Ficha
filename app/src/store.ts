@@ -73,6 +73,9 @@ type Estado = {
   trocarItem: (letra: Plano["letra"], deId: string, paraId: string) => void;
   adicionarItem: (letra: Plano["letra"], id: string) => void;
   removerItem: (letra: Plano["letra"], id: string) => void;
+  /** Sobe (-1) ou desce (+1) um exercício no treino. */
+  moverItem: (letra: Plano["letra"], id: string, passo: -1 | 1) => void;
+  desfazerRemocao: (letra: Plano["letra"], item: ItemFicha, posicao: number, feitas?: SerieFeita[]) => void;
 
   iniciarTreino: (letra: Plano["letra"]) => void;
   concluirSerie: (serie: SerieFeita) => void;
@@ -151,6 +154,17 @@ export function emCalmo(calmoAte: string | null, hoje = diaLocal(new Date())): b
 
 const PANICO_ZERO: Panico = { crises: 0, enviadas: 0, flexoes: 0 };
 
+/** Mantém o treino em andamento coerente quando a ficha daquele treino muda. */
+function ajustarSessao(
+  sessao: Sessao | null,
+  letra: Plano["letra"],
+  feitas: (f: SerieFeita[][]) => SerieFeita[][],
+  atual: (a: number) => number = (a) => a
+): Sessao | null {
+  if (!sessao || sessao.letra !== letra) return sessao;
+  return { ...sessao, feitas: feitas(sessao.feitas), atual: Math.max(0, atual(sessao.atual)) };
+}
+
 function mapaPlano(ficha: Ficha, letra: Plano["letra"], f: (p: Plano) => Plano): Ficha {
   return { ...ficha, planos: ficha.planos.map((p) => (p.letra === letra ? f(p) : p)) };
 }
@@ -203,27 +217,65 @@ export const useApp = create<Estado>()(
       },
       trocarItem: (letra, deId, paraId) => {
         const ficha = get().ficha;
-        if (!ficha) return;
+        const plano = ficha?.planos.find((p) => p.letra === letra);
+        if (!ficha || !plano) return;
+        const i = plano.itens.findIndex((it) => it.id === deId);
+        if (i < 0 || plano.itens.some((it) => it.id === paraId)) return;
         set({
           ficha: mapaPlano(ficha, letra, (p) => ({
             ...p,
             itens: p.itens.map((it) => (it.id === deId ? { ...novoItem(paraId, ficha.objetivo), series: it.series } : it)),
           })),
+          // No treino em andamento, as séries do exercício trocado recomeçam.
+          sessao: ajustarSessao(get().sessao, letra, (f) => f.map((x, k) => (k === i ? [] : x))),
         });
       },
       adicionarItem: (letra, id) => {
         const ficha = get().ficha;
-        if (!ficha) return;
+        const plano = ficha?.planos.find((p) => p.letra === letra);
+        if (!ficha || !plano || plano.itens.some((it) => it.id === id)) return;
         set({
-          ficha: mapaPlano(ficha, letra, (p) =>
-            p.itens.some((it) => it.id === id) ? p : { ...p, itens: [...p.itens, novoItem(id, ficha.objetivo)] }
-          ),
+          ficha: mapaPlano(ficha, letra, (p) => ({ ...p, itens: [...p.itens, novoItem(id, ficha.objetivo)] })),
+          sessao: ajustarSessao(get().sessao, letra, (f) => [...f, []]),
         });
       },
       removerItem: (letra, id) => {
         const ficha = get().ficha;
-        if (!ficha) return;
-        set({ ficha: mapaPlano(ficha, letra, (p) => ({ ...p, itens: p.itens.filter((it) => it.id !== id) })) });
+        const plano = ficha?.planos.find((p) => p.letra === letra);
+        if (!ficha || !plano) return;
+        const i = plano.itens.findIndex((it) => it.id === id);
+        if (i < 0 || plano.itens.length <= 1) return; // um treino precisa de pelo menos um exercício
+        set({
+          ficha: mapaPlano(ficha, letra, (p) => ({ ...p, itens: p.itens.filter((it) => it.id !== id) })),
+          sessao: ajustarSessao(get().sessao, letra, (f) => f.filter((_, k) => k !== i), (a) => (a > i ? a - 1 : Math.min(a, plano.itens.length - 2))),
+        });
+      },
+      moverItem: (letra, id, passo) => {
+        const ficha = get().ficha;
+        const plano = ficha?.planos.find((p) => p.letra === letra);
+        if (!ficha || !plano) return;
+        const i = plano.itens.findIndex((it) => it.id === id);
+        const j = i + passo;
+        if (i < 0 || j < 0 || j >= plano.itens.length) return;
+        const troca = <T,>(l: T[]) => {
+          const c = [...l];
+          [c[i], c[j]] = [c[j], c[i]];
+          return c;
+        };
+        set({
+          ficha: mapaPlano(ficha, letra, (p) => ({ ...p, itens: troca(p.itens) })),
+          sessao: ajustarSessao(get().sessao, letra, troca, (a) => (a === i ? j : a === j ? i : a)),
+        });
+      },
+      desfazerRemocao: (letra, item, posicao, feitasDele = []) => {
+        const ficha = get().ficha;
+        const plano = ficha?.planos.find((p) => p.letra === letra);
+        if (!ficha || !plano || plano.itens.some((it) => it.id === item.id)) return;
+        const pos = Math.min(posicao, plano.itens.length);
+        set({
+          ficha: mapaPlano(ficha, letra, (p) => ({ ...p, itens: [...p.itens.slice(0, pos), item, ...p.itens.slice(pos)] })),
+          sessao: ajustarSessao(get().sessao, letra, (f) => [...f.slice(0, pos), feitasDele, ...f.slice(pos)], (a) => (a >= pos ? a + 1 : a)),
+        });
       },
 
       iniciarTreino: (letra) => {
