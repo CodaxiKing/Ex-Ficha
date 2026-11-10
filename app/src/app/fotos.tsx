@@ -12,7 +12,7 @@ import { Barra, Botao, T, Tela, toque } from "../ui/base";
 function Quadro({ uri, legenda }: { uri?: string; legenda: string }) {
   return (
     <View style={{ flex: 1 }}>
-      <View style={{ aspectRatio: 3 / 4, borderRadius: 14, overflow: "hidden", backgroundColor: "#1a1516", alignItems: "center", justifyContent: "center" }}>
+      <View style={{ aspectRatio: 3 / 4, borderRadius: 14, overflow: "hidden", backgroundColor: cor.vazio, alignItems: "center", justifyContent: "center" }}>
         {uri ? <Image source={{ uri }} style={{ width: "100%", height: "100%" }} contentFit="cover" accessibilityLabel={legenda} /> : <T v="meta">sem foto</T>}
       </View>
       <T v="meta" style={{ marginTop: 6 }}>
@@ -85,7 +85,7 @@ export default function Fotos() {
                   toque();
                   setApagando(f.uri);
                 }}
-                style={{ width: "23.5%", aspectRatio: 3 / 4, borderRadius: 10, overflow: "hidden", backgroundColor: "#1a1516" }}
+                style={{ width: "23.5%", aspectRatio: 3 / 4, borderRadius: 10, overflow: "hidden", backgroundColor: cor.vazio }}
               >
                 <Image source={{ uri: f.uri }} style={{ width: "100%", height: "100%" }} contentFit="cover" />
                 <View style={{ position: "absolute", left: 4, bottom: 4, paddingHorizontal: 5, borderRadius: 6, backgroundColor: "rgba(11,9,9,0.75)" }}>

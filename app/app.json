@@ -47,7 +47,8 @@
           "photosPermission": "O Ex-Ficha usa suas fotos só para o antes e depois. Elas ficam no seu aparelho.",
           "cameraPermission": "O Ex-Ficha usa a câmera para a foto da semana. Ela fica no seu aparelho."
         }
-      ]
+      ],
+      "expo-sharing"
     ],
     "experiments": {
       "typedRoutes": true,

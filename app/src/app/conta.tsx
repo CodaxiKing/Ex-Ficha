@@ -26,7 +26,7 @@ function Campo({ rotulo, dica, ...p }: TextInputProps & { rotulo: string; dica?:
           borderRadius: 14,
           backgroundColor: cor.superficie,
           borderWidth: 1,
-          borderColor: "#3a3132",
+          borderColor: cor.bordaCampo,
           color: cor.texto,
           fontFamily: fonte.regular,
           fontSize: 15,

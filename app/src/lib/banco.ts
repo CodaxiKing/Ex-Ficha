@@ -29,9 +29,29 @@ export type Situacao =
   | "diarioBruto"
   | "medidas"
   | "foto"
-  | "voltou";
+  | "voltou"
+  | "recaida"
+  | "acabouDeNovo";
 
 export const BANCO: Record<Situacao, Frase[]> = {
+  recaida: [
+    ["L", "…ok. A ficha continua valendo."],
+    ["M", "Voltou? A gente não julga. A gente só lembra."],
+    ["S", "Você voltou com {ela}. Seu supino não voltou atrás."],
+    ["L", "Relacionamento muda. Treino fica."],
+    ["M", "Contador pausado. Ficha ativa. O shape não tem nada com isso."],
+    ["S", "Foi só uma mensagem? Sempre é só uma mensagem."],
+    ["L", "Recaída faz parte. Amanhã, treino {treino}."],
+    ["M", "Se acabar de novo, você já sabe o caminho da academia."],
+    ["S", "A gente guardou sua ficha. E seu recorde. Por via das dúvidas."],
+    ["M", "Aconteça o que acontecer, não falta perna."],
+  ],
+  acabouDeNovo: [
+    ["L", "Acabou de novo. Os dias guardados voltaram com você."],
+    ["M", "Segunda temporada cancelada. Volta pra ficha."],
+    ["S", "A gente avisou. Agora, treino {treino}."],
+    ["M", "Contador destravado. Dessa vez sem spoiler."],
+  ],
   acordar: [
     ["L", "Bom dia. O dia é seu, não {dela}."],
     ["M", "{Ela} tá dormindo. Você vai dormir também? Levanta."],

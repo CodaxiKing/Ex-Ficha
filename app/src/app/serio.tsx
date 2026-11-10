@@ -17,7 +17,6 @@ const AJUDA: { titulo: string; sub: string; url: string }[] = [
   { titulo: "Mandar mensagem pra alguém de confiança", sub: "um amigo, alguém da família", url: "sms:" },
 ];
 
-const CALMO_BOTAO = "#e6e2e0";
 
 export default function Serio() {
   const calmoAte = useApp((e) => e.calmoAte);
@@ -31,7 +30,7 @@ export default function Serio() {
             toque();
             router.replace("/hoje");
           }}
-          style={({ pressed }) => ({ height: 52, borderRadius: 999, alignItems: "center", justifyContent: "center", backgroundColor: CALMO_BOTAO, opacity: pressed ? 0.85 : 1 })}
+          style={({ pressed }) => ({ height: 52, borderRadius: 999, alignItems: "center", justifyContent: "center", backgroundColor: cor.texto, opacity: pressed ? 0.85 : 1 })}
         >
           <T peso="semi" tam={16} c={cor.chao}>
             Agora não, mas obrigado
@@ -64,9 +63,9 @@ export default function Serio() {
               gap: 12,
               padding: 16,
               borderRadius: 16,
-              backgroundColor: pressed ? cor.elevado : i === 0 ? "#1f1a1b" : cor.superficie,
+              backgroundColor: pressed ? cor.elevado : i === 0 ? cor.elevado : cor.superficie,
               borderWidth: i === 0 ? 1 : 0,
-              borderColor: "#3a3132",
+              borderColor: cor.bordaCampo,
             })}
           >
             <View style={{ flex: 1 }}>

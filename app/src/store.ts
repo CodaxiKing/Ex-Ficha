@@ -18,6 +18,8 @@ type Perfil = {
   apelido?: string;
   zoeira: Nivel; // L leve, M médio, S sem dó
   avisos: { ativos: boolean; hora: number }; // hora do lembrete da manhã
+  pausadoEm?: string; // AAAA-MM-DD; voltou com a pessoa: o contador para aqui
+  visualFixo?: boolean; // true: não clareia com o tempo (modo superou desligado)
 };
 
 type Panico = { crises: number; enviadas: number; flexoes: number };
@@ -67,6 +69,12 @@ type Estado = {
   /** Registra o humor do dia. Devolve true se entrou no modo calmo agora. */
   registrarHumor: (humor: Humor, texto: string) => boolean;
   sairDoCalmo: () => void;
+  /** Recaída: pausa o contador (os dias ficam guardados). */
+  pausarContador: () => void;
+  /** Acabou de novo: retoma de onde parou, sem perder os dias guardados. */
+  retomarContador: () => void;
+  /** Começa a contar do zero hoje. */
+  zerarContador: () => void;
   /** Sorteia uma frase sem repetir as recentes, já com os pronomes trocados. */
   sortear: (sit: Situacao, vars?: Variaveis) => string;
   salvarMedida: (m: Medida) => void;
@@ -262,6 +270,20 @@ export const useApp = create<Estado>()(
         return entrou;
       },
       sairDoCalmo: () => set({ calmoAte: null }),
+      pausarContador: () => {
+        const p = get().perfil;
+        if (p && !p.pausadoEm) set({ perfil: { ...p, pausadoEm: diaLocal(new Date()) } });
+      },
+      retomarContador: () => {
+        const p = get().perfil;
+        if (!p?.pausadoEm) return;
+        const parado = diasEntre(p.pausadoEm, diaLocal(new Date()));
+        set({ perfil: { ...p, fim: somarDias(p.fim, parado), pausadoEm: undefined } });
+      },
+      zerarContador: () => {
+        const p = get().perfil;
+        if (p) set({ perfil: { ...p, fim: diaLocal(new Date()), pausadoEm: undefined } });
+      },
       sortear: (sit, vars = {}) => {
         const { perfil, recentes, calmoAte } = get();
         const pessoa = perfil?.pessoa ?? "Essa pessoa";
@@ -323,7 +345,7 @@ export function dadosDe(e: Dados): Dados {
 
 /** Dias desde o fim, hoje. */
 export function diasDesdeOFim(perfil: Perfil, hoje = diaLocal(new Date())): number {
-  return diasEntre(perfil.fim, hoje);
+  return Math.max(0, diasEntre(perfil.fim, perfil.pausadoEm && perfil.pausadoEm < hoje ? perfil.pausadoEm : hoje));
 }
 
 export type { Perfil };

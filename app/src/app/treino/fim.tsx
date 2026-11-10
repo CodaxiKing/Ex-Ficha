@@ -3,6 +3,7 @@ import { Pressable, View } from "react-native";
 
 import { exercicio } from "../../data/exercicios";
 import { comSemana, diaLocal, inteiro, kg, somarDias } from "../../lib/datas";
+import { conquistas, novas } from "../../lib/conquistas";
 import { totalSeries, volume } from "../../lib/ficha";
 import { diasTreinados, useApp } from "../../store";
 import { cor } from "../../theme";
@@ -14,6 +15,10 @@ export default function Fim() {
   const { data } = useLocalSearchParams<{ data: string }>();
   const historico = useApp((e) => e.historico);
   const perfil = useApp((e) => e.perfil);
+  const ficha = useApp((e) => e.ficha);
+  const panico = useApp((e) => e.panico);
+  const diario = useApp((e) => e.diario);
+  const fotos = useApp((e) => e.fotos);
   const t = historico.find((h) => h.data === data) ?? historico.at(-1);
   const fraseFim = useFrase("fim", {}, t?.data ?? "");
   const fraseRecorde = useFrase("recorde", {}, t?.data ?? "");
@@ -31,14 +36,23 @@ export default function Fim() {
   const prAntes = Math.max(0, ...antes.flatMap((h) => h.series.filter((s) => s.id === melhor.id).flatMap((s) => s.feitas.map((f) => f.kg))));
   const recorde = melhor.kg > 0 && melhor.kg > prAntes;
 
+  // Conquistas que este treino destravou.
+  const base = { perfil, ficha, panico, diario, fotos, hoje: dia };
+  const destravadas = novas(conquistas({ ...base, historico: antes }), conquistas({ ...base, historico: [...antes, t] }));
+
   const sair = () => router.replace("/hoje");
 
   return (
     <Tela
       rodape={
-        <Botao bloco onPress={sair}>
-          Voltar pro início
-        </Botao>
+        <>
+          <Botao bloco onPress={() => router.push({ pathname: "/card", params: { data: t.data } })}>
+            Gerar card pro Stories
+          </Botao>
+          <Botao tipo="texto" onPress={sair}>
+            Voltar pro início
+          </Botao>
+        </>
       }
     >
       <View style={{ flexDirection: "row", alignItems: "center", height: 44 }}>
@@ -90,6 +104,20 @@ export default function Fim() {
           {recorde && <Chip positivo>{antes.length ? "Recorde novo" : "Primeiro recorde"}</Chip>}
         </Card>
       )}
+
+      {destravadas.map((c) => (
+        <View key={c.id} style={{ marginTop: 10, flexDirection: "row", alignItems: "center", gap: 12, padding: 14, borderRadius: 16, backgroundColor: cor.pilulaFundo }}>
+          <View style={{ flex: 1 }}>
+            <T v="meta" c={cor.pilulaTexto}>
+              Conquista destravada
+            </T>
+            <T peso="semi">{c.nome}</T>
+            <T v="sub" tam={13}>
+              {c.frase}
+            </T>
+          </View>
+        </View>
+      ))}
     </Tela>
   );
 }

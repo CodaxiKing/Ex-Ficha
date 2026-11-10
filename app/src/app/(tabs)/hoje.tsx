@@ -6,9 +6,9 @@ import { exercicio } from "../../data/exercicios";
 import type { Ficha } from "../../data/tipos";
 import { comSemana, curta, diaLocal, diasEntre, somarDias } from "../../lib/datas";
 import { minutosEstimados, proximoPlano } from "../../lib/ficha";
-import { calmo, marco } from "../../lib/frases";
-import { diasTreinados, emCalmo, type Perfil, useApp } from "../../store";
-import { cor, raio } from "../../theme";
+import { calmo, frase, marco } from "../../lib/frases";
+import { diasDesdeOFim, diasTreinados, emCalmo, type Perfil, useApp } from "../../store";
+import { cor, faseAtual, raio } from "../../theme";
 import { Card, Chip, T, Tela, toque } from "../../ui/base";
 import { useFrase } from "../../ui/frase";
 import { IcCheck, IcMensagemX, IcSeta } from "../../ui/icones";
@@ -95,7 +95,7 @@ function HojeNormal({ perfil, ficha }: { perfil: Perfil; ficha: Ficha }) {
 
   const agora = new Date();
   const hoje = diaLocal(agora);
-  const desde = diasEntre(perfil.fim, hoje);
+  const desde = diasDesdeOFim(perfil, hoje);
   const treinados = diasTreinados(historico);
   const totalTreinados = [...treinados].filter((d) => d >= perfil.fim).length;
 
@@ -119,7 +119,8 @@ function HojeNormal({ perfil, ficha }: { perfil: Perfil; ficha: Ficha }) {
 
   const situacao = treinouHoje ? "hojeTreinou" : semTreinar >= 2 ? "voltou" : "hoje";
   const sorteada = useFrase(situacao, { treino: plano.letra }, `${hoje}-${situacao}`);
-  const manchete = marco(desde, perfil.zoeira) ?? sorteada;
+  const doMarco = marco(desde, perfil.zoeira);
+  const manchete = doMarco ? frase(doMarco, perfil.pessoa) : sorteada;
 
   const passos = [
     { feito: !primeiraVez, t: "Primeiro treino", s: `Treino ${plano.letra}, ${minutosEstimados(plano)} min`, go: `/treino/${plano.letra}` as const },
@@ -134,15 +135,21 @@ function HojeNormal({ perfil, ficha }: { perfil: Perfil; ficha: Ficha }) {
       {/* A anilha da marca vaza pela direita, atrás do contador. */}
       <Image
         source={require("../../../assets/images/logo-mark-hd.png")}
-        style={{ position: "absolute", top: -30, right: -150, width: 360, height: 360, opacity: 0.32 }}
+        style={{ position: "absolute", top: -30, right: -150, width: 360, height: 360, opacity: faseAtual === 365 ? 0.14 : 0.32 }}
         contentFit="contain"
         accessible={false}
       />
 
       <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", height: 44 }}>
-        <T v="gotica" tam={22}>
-          Ex-Ficha
-        </T>
+        {faseAtual >= 90 ? (
+          <T peso="semi" tam={16}>
+            ex-ficha
+          </T>
+        ) : (
+          <T v="gotica" tam={22}>
+            Ex-Ficha
+          </T>
+        )}
         <T v="sub" tam={13}>
           {comSemana(hoje)}
         </T>
@@ -157,12 +164,15 @@ function HojeNormal({ perfil, ficha }: { perfil: Perfil; ficha: Ficha }) {
           {desde}
         </T>
         <T v="sub" tam={16} style={{ marginBottom: 18 }}>
-          {desde === 1 ? "dia\ndesde o fim" : "dias\ndesde o fim"}
+          {perfil.pausadoEm ? "dias,\nguardados" : desde === 1 ? "dia\ndesde o fim" : "dias\ndesde o fim"}
         </T>
       </View>
       <T peso="semi" tam={22} style={{ lineHeight: 28, letterSpacing: -0.3, marginTop: 4, maxWidth: 330 }} accessibilityRole="header">
         {manchete}
       </T>
+      {perfil.pausadoEm && (
+        <Linha titulo="Contador pausado" sub="Acabou de novo? Toca pra voltar dos dias guardados." onPress={() => router.push("/recaida")} fundo={cor.elevado} />
+      )}
 
       {/* Esta semana */}
       <View style={{ marginTop: 20, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
@@ -269,7 +279,7 @@ function HojeNormal({ perfil, ficha }: { perfil: Perfil; ficha: Ficha }) {
           paddingLeft: 18,
           paddingRight: 16,
           borderRadius: raio.card,
-          backgroundColor: pressed ? "#26100f" : cor.panicoFundo,
+          backgroundColor: pressed ? cor.pilulaFundo : cor.panicoFundo,
         })}
       >
         <View style={{ flex: 1 }}>
@@ -316,7 +326,7 @@ function HojeNormal({ perfil, ficha }: { perfil: Perfil; ficha: Ficha }) {
                     justifyContent: "center",
                     backgroundColor: p.feito ? cor.vermelho : "transparent",
                     borderWidth: p.feito ? 0 : 1.5,
-                    borderColor: "#5a4e4f",
+                    borderColor: cor.controle,
                   }}
                 >
                   {p.feito && <IcCheck cor="#fff" />}

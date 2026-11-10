@@ -40,7 +40,7 @@ function GraficoPeso({ pontos }: { pontos: { dia: string; v: number }[] }) {
   return (
     <Svg width="100%" height={H} viewBox={`0 0 ${W} ${H}`} accessibilityLabel={`Peso de ${num(vs[0])} para ${num(vs[ult])} kg`}>
       {[mn, (mn + mx) / 2, mx].map((v) => (
-        <Line key={v} x1={pl} x2={W} y1={y(v)} y2={y(v)} stroke="#2e2526" strokeDasharray="2 4" />
+        <Line key={v} x1={pl} x2={W} y1={y(v)} y2={y(v)} stroke={cor.hover} strokeDasharray="2 4" />
       ))}
       {[mn, mx].map((v) => (
         <SvgText key={`t${v}`} x={0} y={y(v) + 4} fill={cor.fraco} fontSize={11} fontFamily={fonte.regular}>

@@ -75,7 +75,7 @@ export async function reagendarAvisos(): Promise<number> {
     // Manhã
     const manha = quando(dia, perfil.avisos.hora);
     if (manha > agora) {
-      const dias = diasEntre(perfil.fim, dia);
+      const dias = perfil.pausadoEm ? -1 : diasEntre(perfil.fim, dia);
       const corpo = calmo ? doDia(CALMO, dia) : (marco(dias, perfil.zoeira) && frase(marco(dias, perfil.zoeira)!, perfil.pessoa)) || sortear(semana === 0 || semana === 6 ? "fimDeSemana" : "acordar");
       pedidos.push({ data: manha, corpo });
     }

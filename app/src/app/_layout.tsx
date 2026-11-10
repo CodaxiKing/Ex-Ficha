@@ -11,15 +11,16 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { reagendarAvisos } from "../lib/avisos";
 import { fazerBackup, nuvemConfigurada, sessaoAtual } from "../lib/nuvem";
-import { useApp, useCarregado } from "../store";
-import { cor } from "../theme";
+import { diasDesdeOFim, useApp, useCarregado } from "../store";
+import { aplicarFase, claro, cor, faseAtual, faseDe } from "../theme";
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 
-const tema = {
+const temaNav = () => ({
   ...DarkTheme,
+  dark: !claro(),
   colors: { ...DarkTheme.colors, background: cor.chao, card: cor.chao, text: cor.texto, border: cor.borda, primary: cor.vermelho },
-};
+});
 
 /** Reagenda os lembretes quando muda algo que afeta o texto ou o horário deles. */
 function Avisos() {
@@ -54,6 +55,9 @@ function BackupAutomatico() {
 export default function Raiz() {
   const [fontes] = useFonts({ Inter_400Regular, Inter_500Medium, Inter_600SemiBold, Anton_400Regular, UnifrakturCook_700Bold });
   const carregado = useCarregado();
+  // Modo superou: a fase sai dos dias desde o fim (ou fica no escuro, se a pessoa preferir).
+  const fase = useApp((e) => (e.perfil && !e.perfil.visualFixo ? faseDe(diasDesdeOFim(e.perfil)) : 0));
+  if (fase !== faseAtual) aplicarFase(fase);
   const pronto = fontes && carregado;
 
   useEffect(() => {
@@ -64,8 +68,8 @@ export default function Raiz() {
 
   return (
     <SafeAreaProvider>
-      <ThemeProvider value={tema}>
-        <StatusBar style="light" />
+      <ThemeProvider value={temaNav()} key={fase}>
+        <StatusBar style={claro() ? "dark" : "light"} />
         <Avisos />
         <BackupAutomatico />
         <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: cor.chao }, animation: "fade" }}>

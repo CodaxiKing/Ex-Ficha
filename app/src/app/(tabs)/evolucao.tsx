@@ -18,6 +18,7 @@ function Atalhos() {
   const itens = [
     { t: "Medidas", s: ultima?.peso !== undefined ? `${String(ultima.peso).replace(".", ",")} kg em ${curta(ultima.dia)}` : "Peso, cintura, braço…", go: "/medidas" as const },
     { t: "Fotos", s: fotos.length ? `${fotos.length} ${fotos.length === 1 ? "foto" : "fotos"} · só você vê` : "O antes e depois", go: "/fotos" as const },
+    { t: "Conquistas", s: "Lápides do que passou", go: "/conquistas" as const },
   ];
   return (
     <View style={{ flexDirection: "row", gap: 8, marginTop: 12 }}>

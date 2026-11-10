@@ -98,11 +98,32 @@ export default function Perfil() {
       )}
 
       <Item titulo="Diário" sub="Uma linha por dia" onPress={() => router.push("/diario")} />
+      <Item titulo="Conquistas" sub="O que ficou pra trás" onPress={() => router.push("/conquistas")} />
       <Item
         titulo="Conta e backup"
         sub={ultimoBackup ? `Último backup: ${curta(diaLocal(ultimoBackup))}` : "Guarda seus treinos na nuvem"}
         onPress={() => router.push("/conta")}
       />
+      <Item
+        titulo={perfil.pausadoEm ? "Contador pausado" : frase("Voltei com {ela}", perfil.pessoa)}
+        sub={perfil.pausadoEm ? "Acabou de novo? Volta dos dias guardados" : "Sem julgamento. A gente só pausa o contador"}
+        onPress={() => router.push("/recaida")}
+      />
+
+      <Titulo>Visual</Titulo>
+      <View style={{ flexDirection: "row", alignItems: "center", gap: 12, marginTop: 10 }}>
+        <View style={{ flex: 1 }}>
+          <T>Clareia com o tempo</T>
+          <T v="meta">No dia 30 o preto esquenta, no 90 vira cinza, com um ano fica claro.</T>
+        </View>
+        <Switch
+          value={!perfil.visualFixo}
+          onValueChange={(v) => atualizar({ visualFixo: !v })}
+          trackColor={{ true: cor.vermelho, false: cor.elevado }}
+          thumbColor={cor.texto}
+          accessibilityLabel="Visual clareia com o tempo"
+        />
+      </View>
 
       <Titulo>Como o app te chama</Titulo>
       <TextInput
@@ -118,7 +139,7 @@ export default function Perfil() {
           borderRadius: 14,
           backgroundColor: cor.superficie,
           borderWidth: 1,
-          borderColor: "#3a3132",
+          borderColor: cor.bordaCampo,
           color: cor.texto,
           fontFamily: fonte.regular,
           fontSize: 15,
@@ -141,7 +162,7 @@ export default function Perfil() {
             <T peso={perfil.zoeira === n.id ? "semi" : "regular"} c={perfil.zoeira === n.id ? cor.chao : cor.texto}>
               {n.rotulo}
             </T>
-            <T tam={13} c={perfil.zoeira === n.id ? "#4a3f40" : cor.fraco}>
+            <T tam={13} c={perfil.zoeira === n.id ? cor.apagado : cor.fraco}>
               {frase(n.exemplo, perfil.pessoa)}
             </T>
           </Pressable>

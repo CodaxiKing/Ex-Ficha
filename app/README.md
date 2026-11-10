@@ -23,6 +23,10 @@ npm start         # QR code para o Expo Go no celular
 - **Diário e modo sério:** uma linha por dia com o humor. Três "Morto" seguidos abrem o modo sério (CVV 188, chat, SAMU 192) e pausam a zoeira e as cobranças por 7 dias; dá pra voltar antes no Perfil.
 - **Medidas e fotos:** peso com gráfico, cintura, peito, braço e coxa com a diferença desde a primeira medida; fotos da semana guardadas só no aparelho.
 - **Conta e backup:** criar conta e entrar por e-mail (Supabase), backup manual e automático a cada treino, restaurar. Sem configurar o Supabase, o app funciona igual e só a tela de conta avisa.
+- **Conquistas:** 16 lápides calculadas a partir dos dados (primeiro treino, crises vencidas, sequências, toneladas, dias). As que um treino destrava aparecem no fim do treino.
+- **Card do Stories:** imagem 1080×1920 com dias, faixa de treinos, números e uma frase; compartilha no celular e baixa no navegador.
+- **Modo recaída:** "Voltei com ela" pausa o contador (padrão), zera ou conta só uma mensagem. "Acabou de novo" volta dos dias guardados.
+- **Modo superou:** o visual clareia com o tempo (dia 30, 90 e 365); dá pra manter o escuro no Perfil.
 
 ## Configurar a conta (Supabase)
 1. Crie um projeto em supabase.com.
@@ -40,4 +44,4 @@ Lembretes, câmera e galeria precisam do app no celular. No Expo Go os lembretes
 - `src/data/exercicios.gen.ts`: gerado por `npm run sync-exercicios` a partir de `../exercicios/dist`.
 
 ## Ainda não tem
-Entrar com Apple e Google, dieta, liga e X1, Clube dos Trocados, modo superou e o card do Stories. Estão desenhados no canvas.
+Entrar com Apple e Google, dieta, premium, liga e X1 e Clube dos Trocados. Estão desenhados no canvas.

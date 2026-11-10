@@ -257,14 +257,14 @@ export default function Treino() {
                   <View
                     key={k}
                     style={[
-                      { flex: 1, height: 46, borderRadius: 10, alignItems: "center", justifyContent: "center", backgroundColor: f ? cor.pilulaFundo : "#1a1516" },
+                      { flex: 1, height: 46, borderRadius: 10, alignItems: "center", justifyContent: "center", backgroundColor: f ? cor.pilulaFundo : cor.vazio },
                       cur && { borderWidth: 1.5, borderColor: cor.texto },
                     ]}
                   >
                     <T tam={13} c={f ? cor.pilulaTexto : cor.texto}>
                       {k + 1}ª
                     </T>
-                    <T tam={11} c={f ? "#d58a8a" : cor.fraco}>
+                    <T tam={11} c={f ? cor.pilulaTexto : cor.fraco}>
                       {f ? `${f.reps}${prancha ? " s" : ""}` : cur ? "agora" : "—"}
                     </T>
                   </View>
