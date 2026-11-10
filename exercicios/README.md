@@ -1,24 +1,31 @@
 # Base de exercícios do Ex-Ficha
 
-Gerada a partir do [free-exercise-db](https://github.com/yuhonas/free-exercise-db) (domínio público, Unlicense: pode usar, modificar e vender sem pedir permissão).
+42 exercícios de academia em português, cada um com um GIF animado no estilo da marca.
 
-## O que o `build.py` faz
-- Junta as duas fotos de cada exercício (início e fim do movimento) numa **animação em loop** (WebP animado, ~120 KB a 480 px).
-- Aplica o **tratamento da marca**: preto de cinzas e cor de osso, sombras mais fundas, igual às fotos do app.
-- Traduz músculos, equipamento, nível, tipo e mecânica para português.
-- Para os exercícios em `curadoria.json`, usa **nome, passos e dica em português** no tom do app.
+## Fonte: ExerciseDB
+Os GIFs vêm do [ExerciseDB / AscendAPI](https://github.com/exercisedb/exercisedb-api), versão grátis V1 (`https://oss.exercisedb.dev`, sem chave): ilustrações 3D com os músculos trabalhados em vermelho.
+
+O `build.py` trata cada quadro do GIF:
+- o fundo branco vira o preto de cinzas do app (`#0b0909`);
+- o corpo e os aparelhos viram cor de osso, com as sombras mais fundas;
+- o vermelho dos músculos é puxado para o vermelho da logo (`#d0121a`).
+
+> **Antes de publicar o app:** confirme os [termos de uso do ExerciseDB](https://dub.sh/exercisedb-api-tos). O código deles é AGPL-3.0, e a página não deixava claro se os GIFs podem ser modificados e usados comercialmente. A V1 grátis entrega GIFs de 180 × 180 px; a V2 paga tem resolução maior e vídeos.
+
+## Arquivos
+- `curadoria.json`: nome, grupo, passos e uma dica no tom do app, para cada exercício.
+- `mapa-exercisedb.json`: o id do ExerciseDB usado para cada exercício. Troque aqui se preferir outra variação.
+- `build.py`: gera a base.
+- `dist/exercicios.json` e `dist/gifs/<id>.webp` (+ `<id>.jpg`, um quadro para capa): a saída pronta para o app.
 
 ## Como rodar
 ```bash
 pip install pillow
-python build.py            # 42 exercícios da curadoria
-python build.py --todos    # os 876 da base (baixa ~1.750 fotos)
+python build.py                 # ExerciseDB (padrão)
+python build.py --fonte free    # alternativa: free-exercise-db (domínio público, 2 fotos por exercício viram um loop)
 ```
 
-Saída em `dist/`:
-- `exercicios.json`: um registro por exercício (`nome`, `grupo`, `musculos_principais`, `equipamento`, `nivel`, `passos`, `dica`, `gif`, `capa`...).
-- `gifs/<id>.webp`: a animação. `gifs/<id>.jpg`: o primeiro quadro, para capa e carregamento.
+O GIF sai como WebP animado (funciona no iOS 14+ e no Android), cerca de 90 KB cada a 360 px.
 
 ## Para crescer
-- Exercícios fora da curadoria saem com `traduzido: false`, ou seja, com nome e passos em inglês. Para traduzir, adicione o id em `curadoria.json` com `nome`, `grupo`, `dica` e `passos`.
-- WebP animado funciona no iOS 14+ e no Android. Se precisar de GIF de verdade, o mesmo código gera, mas os arquivos ficam cerca de 7 vezes maiores.
+Adicione o exercício em `curadoria.json` (nome, grupo, dica, passos) e o id correspondente em `mapa-exercisedb.json`. A lista completa dos 1.500 exercícios da V1 é baixada na primeira execução em `fonte-exercisedb/exercises.json`.

@@ -9,7 +9,7 @@ App de treino para quem acabou de sair de um relacionamento: ficha nova, contado
 | Pasta | O que é |
 |---|---|
 | [`canvas/`](canvas/) | Canvas estilo Figma com todas as telas do app, componentes, banco de 100 frases, marca, landing page e prints da loja. Abra `canvas/index.html` no navegador. |
-| [`exercicios/`](exercicios/) | Base de exercícios em português com animações em loop no tratamento sombrio da marca, e o script que a gera. |
+| [`exercicios/`](exercicios/) | Base de 42 exercícios em português com GIFs do ExerciseDB no tratamento sombrio da marca, e o script que a gera. |
 
 ## Canvas
 - Arraste qualquer tela pra mover (as posições ficam salvas no navegador). "Reorganizar" volta ao padrão.
@@ -18,6 +18,6 @@ App de treino para quem acabou de sair de um relacionamento: ficha nova, contado
 
 ## Créditos
 - Fotos do onboarding: Nica's Photo, Alan Cordero e Marcus Chan, via [Pexels](https://www.pexels.com) ([licença Pexels](https://www.pexels.com/license/)).
-- Exercícios: [free-exercise-db](https://github.com/yuhonas/free-exercise-db), domínio público.
+- Exercícios: GIFs do [ExerciseDB / AscendAPI](https://github.com/exercisedb/exercisedb-api), tratados no estilo da marca (confirmar os termos de uso antes de publicar). Alternativa de domínio público: [free-exercise-db](https://github.com/yuhonas/free-exercise-db).
 - Fontes: Inter, Anton e UnifrakturCook (Google Fonts, licença SIL Open Font).
 - Os dados das telas (nomes, cargas, preços, ranking) são exemplos.
