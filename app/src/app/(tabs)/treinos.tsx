@@ -14,6 +14,7 @@ export default function Treinos() {
   const ficha = useApp((e) => e.ficha);
   const historico = useApp((e) => e.historico);
   const novaFicha = useApp((e) => e.novaFicha);
+  const premium = useApp((e) => e.premium?.ativo);
   const [confirmar, setConfirmar] = useState(false);
   if (!ficha) return null;
 
@@ -40,7 +41,7 @@ export default function Treinos() {
             {restam > 0 ? `Vence em ${restam} ${restam === 1 ? "dia" : "dias"}.` : "Ficha vencida."}
           </T>
           <T v="meta" c={cor.panicoTexto}>
-            {restam > 0 ? `Objetivo: ${objetivo}.` : "Trocou de vida? Troca de ficha."}
+            {restam > 0 ? `Objetivo: ${objetivo}.${premium ? " Troca sozinha no fim." : ""}` : "Trocou de vida? Troca de ficha."}
           </T>
         </View>
         <Botao tipo="fantasma" style={{ height: 36, paddingHorizontal: 14 }} onPress={() => {
@@ -108,6 +109,20 @@ export default function Treinos() {
       <Botao tipo="fantasma" bloco style={{ marginTop: 14 }} onPress={() => router.push("/biblioteca")}>
         Adicionar exercício
       </Botao>
+      <Pressable
+        accessibilityRole="button"
+        onPress={() => {
+          toque();
+          router.push("/dieta");
+        }}
+        style={({ pressed }) => ({ marginTop: 12, flexDirection: "row", alignItems: "center", gap: 12, padding: 16, borderRadius: 20, backgroundColor: pressed ? cor.elevado : cor.superficie })}
+      >
+        <View style={{ flex: 1 }}>
+          <T peso="semi">Dieta de hoje</T>
+          <T v="meta">{premium ? "Calorias, proteína e o cardápio do dia" : "Do premium · sem pote de sorvete às 23h"}</T>
+        </View>
+        <Chip positivo>Sem dó</Chip>
+      </Pressable>
     </Tela>
   );
 }

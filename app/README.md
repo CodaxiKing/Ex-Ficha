@@ -27,6 +27,16 @@ npm start         # QR code para o Expo Go no celular
 - **Card do Stories:** imagem 1080×1920 com dias, faixa de treinos, números e uma frase; compartilha no celular e baixa no navegador.
 - **Modo recaída:** "Voltei com ela" pausa o contador (padrão), zera ou conta só uma mensagem. "Acabou de novo" volta dos dias guardados.
 - **Modo superou:** o visual clareia com o tempo (dia 30, 90 e 365); dá pra manter o escuro no Perfil.
+- **Premium "Sem dó":** R$ 14,90/mês ou R$ 89,90/ano com 7 dias grátis (preço vem da loja). Libera a dieta, o nível Sem dó, fotos sem limite (grátis: 4), card sem marca d'água e a ficha que troca sozinha a cada 4 semanas (metade dos exercícios gira, as cargas ficam).
+- **Dieta:** calorias pelo gasto estimado (Mifflin-St Jeor) e o objetivo, com piso seguro; proteína por kg; cinco refeições de comida brasileira com porções calculadas, cardápio que gira todo dia, marcar o que comeu e registrar o que foi fora do cardápio.
+
+## Configurar a assinatura (RevenueCat)
+1. Crie os produtos (anual e mensal, com 7 dias grátis) na App Store Connect e no Google Play Console.
+2. No RevenueCat, crie o entitlement `premium` e uma offering com os pacotes Anual e Mensal.
+3. Preencha `EXPO_PUBLIC_REVENUECAT_IOS` e `EXPO_PUBLIC_REVENUECAT_ANDROID` no `.env`.
+4. Compra só funciona num build de desenvolvimento ou de loja (`npx eas-cli@latest build`), não no navegador.
+
+Sem as chaves, a tela do premium mostra os preços de referência e avisa que nada é cobrado. Em desenvolvimento aparece "Liberar premium (teste)".
 
 ## Configurar a conta (Supabase)
 1. Crie um projeto em supabase.com.
@@ -44,4 +54,4 @@ Lembretes, câmera e galeria precisam do app no celular. No Expo Go os lembretes
 - `src/data/exercicios.gen.ts`: gerado por `npm run sync-exercicios` a partir de `../exercicios/dist`.
 
 ## Ainda não tem
-Entrar com Apple e Google, dieta, premium, liga e X1 e Clube dos Trocados. Estão desenhados no canvas.
+Entrar com Apple e Google, liga e X1 e Clube dos Trocados. Estão desenhados no canvas.

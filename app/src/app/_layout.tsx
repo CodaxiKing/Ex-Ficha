@@ -9,7 +9,10 @@ import { useEffect } from "react";
 import { View } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
+import { iniciarAssinatura } from "../lib/assinatura";
 import { reagendarAvisos } from "../lib/avisos";
+import { diaLocal, diasEntre } from "../lib/datas";
+import { DIAS_DA_FICHA } from "../lib/ficha";
 import { fazerBackup, nuvemConfigurada, sessaoAtual } from "../lib/nuvem";
 import { diasDesdeOFim, useApp, useCarregado } from "../store";
 import { aplicarFase, claro, cor, faseAtual, faseDe } from "../theme";
@@ -52,6 +55,20 @@ function BackupAutomatico() {
   return null;
 }
 
+/** Liga a loja e, no premium, troca a ficha sozinha quando ela vence. */
+function Assinatura() {
+  const premium = useApp((e) => e.premium?.ativo);
+  const fichaDe = useApp((e) => e.ficha?.criadaEm);
+  const renovar = useApp((e) => e.renovarFicha);
+  useEffect(() => {
+    iniciarAssinatura().catch(() => {});
+  }, []);
+  useEffect(() => {
+    if (premium && fichaDe && diasEntre(diaLocal(fichaDe), diaLocal(new Date())) >= DIAS_DA_FICHA) renovar();
+  }, [premium, fichaDe, renovar]);
+  return null;
+}
+
 export default function Raiz() {
   const [fontes] = useFonts({ Inter_400Regular, Inter_500Medium, Inter_600SemiBold, Anton_400Regular, UnifrakturCook_700Bold });
   const carregado = useCarregado();
@@ -72,6 +89,7 @@ export default function Raiz() {
         <StatusBar style={claro() ? "dark" : "light"} />
         <Avisos />
         <BackupAutomatico />
+        <Assinatura />
         <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: cor.chao }, animation: "fade" }}>
           <Stack.Screen name="panico" options={{ presentation: "fullScreenModal", animation: "fade" }} />
           <Stack.Screen name="treino/[letra]" options={{ gestureEnabled: false }} />

@@ -57,6 +57,7 @@ export default function Perfil() {
   const calmoAte = useApp((e) => e.calmoAte);
   const ultimoBackup = useApp((e) => e.ultimoBackup);
   const atualizar = useApp((e) => e.atualizarPerfil);
+  const premium = useApp((e) => e.premium?.ativo);
   const novaFicha = useApp((e) => e.novaFicha);
   const sairDoCalmo = useApp((e) => e.sairDoCalmo);
   const apagarTudo = useApp((e) => e.apagarTudo);
@@ -97,6 +98,7 @@ export default function Perfil() {
         </Card>
       )}
 
+      <Item titulo={premium ? "Premium · Sem dó" : "Seja Sem dó"} sub={premium ? "Ativo. O app pega pesado." : "Dieta, frases pesadas, ficha que troca sozinha"} onPress={() => router.push("/premium")} />
       <Item titulo="Diário" sub="Uma linha por dia" onPress={() => router.push("/diario")} />
       <Item titulo="Conquistas" sub="O que ficou pra trás" onPress={() => router.push("/conquistas")} />
       <Item
@@ -155,12 +157,14 @@ export default function Perfil() {
             accessibilityState={{ checked: perfil.zoeira === n.id }}
             onPress={() => {
               toque();
+              if (n.id === "S" && !premium) return router.push("/premium");
               atualizar({ zoeira: n.id });
             }}
             style={{ padding: 14, paddingHorizontal: 18, borderRadius: 16, backgroundColor: perfil.zoeira === n.id ? cor.texto : cor.superficie }}
           >
             <T peso={perfil.zoeira === n.id ? "semi" : "regular"} c={perfil.zoeira === n.id ? cor.chao : cor.texto}>
               {n.rotulo}
+              {n.id === "S" && !premium ? " · premium" : ""}
             </T>
             <T tam={13} c={perfil.zoeira === n.id ? cor.apagado : cor.fraco}>
               {frase(n.exemplo, perfil.pessoa)}

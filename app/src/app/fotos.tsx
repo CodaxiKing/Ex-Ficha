@@ -1,11 +1,12 @@
 import { Image } from "expo-image";
+import { router } from "expo-router";
 import { useState } from "react";
 import { Pressable, View } from "react-native";
 
 import { curta, diaLocal, diasEntre } from "../lib/datas";
 import { apagarArquivo, pegarFoto } from "../lib/fotos";
 import { frase } from "../lib/frases";
-import { useApp } from "../store";
+import { FOTOS_GRATIS, useApp } from "../store";
 import { cor } from "../theme";
 import { Barra, Botao, T, Tela, toque } from "../ui/base";
 
@@ -28,6 +29,7 @@ export default function Fotos() {
   const adicionar = useApp((e) => e.adicionarFoto);
   const remover = useApp((e) => e.removerFoto);
   const sortear = useApp((e) => e.sortear);
+  const premium = useApp((e) => e.premium?.ativo);
   const [resposta, setResposta] = useState<string | null>(null);
   const [apagando, setApagando] = useState<string | null>(null);
   if (!perfil) return null;
@@ -38,6 +40,7 @@ export default function Fotos() {
   const legenda = (dia: string) => `Dia ${Math.max(0, diasEntre(perfil.fim, dia))} · ${curta(dia)}`;
 
   const nova = async (origem: "camera" | "galeria") => {
+    if (!premium && fotos.length >= FOTOS_GRATIS) return router.push("/premium");
     const uri = await pegarFoto(origem);
     if (!uri) return;
     adicionar({ dia: hoje, uri });

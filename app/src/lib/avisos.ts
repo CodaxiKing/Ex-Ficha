@@ -7,7 +7,7 @@ import { CALMO } from "./banco";
 import { diaLocal, diasEntre, somarDias } from "./datas";
 import { DIAS_DA_FICHA, proximoPlano } from "./ficha";
 import { doDia, frase, marco, sortearCom } from "./frases";
-import { emCalmo, useApp } from "../store";
+import { emCalmo, nivelEfetivo, useApp } from "../store";
 
 /** Quantos dias à frente ficam agendados. O app reagenda a cada abertura e a cada treino. */
 const DIAS = 7;
@@ -49,11 +49,12 @@ function quando(dia: string, hora: number, minuto = 0): Date {
 export async function reagendarAvisos(): Promise<number> {
   if (!avisosDisponiveis) return 0;
   await Notifications.cancelAllScheduledNotificationsAsync();
-  const { perfil, ficha, historico, calmoAte, recentes } = useApp.getState();
+  const { perfil, ficha, historico, calmoAte, recentes, premium } = useApp.getState();
   if (!perfil?.avisos.ativos || !ficha) return 0;
   const perm = await Notifications.getPermissionsAsync();
   if (!perm.granted) return 0;
 
+  const nivel = nivelEfetivo(perfil, premium);
   const agora = new Date();
   const hoje = diaLocal(agora);
   const treinouHoje = historico.some((t) => diaLocal(t.data) === hoje);
@@ -62,7 +63,7 @@ export async function reagendarAvisos(): Promise<number> {
   const pedidos: { data: Date; corpo: string }[] = [];
 
   const sortear = (sit: Situacao, vars = {}) => {
-    const r = sortearCom(sit, perfil.zoeira, memoria[sit] ?? [], { treino: proximo, nome: perfil.apelido, ...vars });
+    const r = sortearCom(sit, nivel, memoria[sit] ?? [], { treino: proximo, nome: perfil.apelido, ...vars });
     memoria[sit] = r.recentes;
     return frase(r.texto, perfil.pessoa, { treino: proximo, nome: perfil.apelido, ...vars });
   };
@@ -76,7 +77,7 @@ export async function reagendarAvisos(): Promise<number> {
     const manha = quando(dia, perfil.avisos.hora);
     if (manha > agora) {
       const dias = perfil.pausadoEm ? -1 : diasEntre(perfil.fim, dia);
-      const corpo = calmo ? doDia(CALMO, dia) : (marco(dias, perfil.zoeira) && frase(marco(dias, perfil.zoeira)!, perfil.pessoa)) || sortear(semana === 0 || semana === 6 ? "fimDeSemana" : "acordar");
+      const corpo = calmo ? doDia(CALMO, dia) : (marco(dias, nivel) && frase(marco(dias, nivel)!, perfil.pessoa)) || sortear(semana === 0 || semana === 6 ? "fimDeSemana" : "acordar");
       pedidos.push({ data: manha, corpo });
     }
     if (calmo) continue;

@@ -21,6 +21,7 @@ export default function Card() {
   const perfil = useApp((e) => e.perfil);
   const historico = useApp((e) => e.historico);
   const panico = useApp((e) => e.panico);
+  const premium = useApp((e) => e.premium?.ativo);
   const frase = useFrase("fim", {}, data ?? "card");
   const { width } = useWindowDimensions();
   const ref = useRef<ComponentRef<typeof View>>(null);
@@ -115,9 +116,11 @@ export default function Card() {
               <T tam={18} c={cor.apagado}>
                 {curta(hoje)}
               </T>
-              <T tam={18} c={cor.apagado}>
-                ex-ficha.app
-              </T>
+              {!premium && (
+                <T tam={18} c={cor.apagado}>
+                  ex-ficha.app
+                </T>
+              )}
             </View>
           </View>
         </View>

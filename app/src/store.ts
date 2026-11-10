@@ -6,7 +6,8 @@ import { createJSONStorage, persist } from "zustand/middleware";
 import type { Ficha, ItemFicha, Objetivo, Pessoa, Plano, Sessao, SerieFeita, TreinoFeito } from "./data/tipos";
 import type { Nivel, Situacao } from "./lib/banco";
 import { diaLocal, diasEntre, somarDias } from "./lib/datas";
-import { montarFicha, novoItem } from "./lib/ficha";
+import { montarFicha, novoItem, renovarFicha as renovar } from "./lib/ficha";
+import type { DadosDieta } from "./lib/dieta";
 import { calmo, frase, sortearCom, type Variaveis } from "./lib/frases";
 
 type Perfil = {
@@ -31,6 +32,19 @@ export type EntradaDiario = { dia: string; humor: Humor; texto: string };
 export type Medida = { dia: string; peso?: number; cintura?: number; peito?: number; braco?: number; coxa?: number };
 export type Foto = { dia: string; uri: string };
 
+export type Premium = { ativo: boolean; origem: "loja" | "teste"; desde: string };
+export type Extra = { nome: string; kcal: number; prot: number };
+export type DiaDieta = { feitas: string[]; extras: Extra[] };
+
+/** Nível de zoeira valendo: "Sem dó" é do premium. */
+export function nivelEfetivo(perfil: { zoeira: Nivel } | null, premium: Premium | null): Nivel {
+  const n = perfil?.zoeira ?? "M";
+  return n === "S" && !premium?.ativo ? "M" : n;
+}
+
+/** Fotos no plano grátis. */
+export const FOTOS_GRATIS = 4;
+
 /** Dias que o modo calmo dura depois de três "Morto" seguidos. */
 export const DIAS_CALMO = 7;
 
@@ -46,10 +60,15 @@ type Estado = {
   medidas: Medida[];
   fotos: Foto[];
   ultimoBackup: string | null;
+  premium: Premium | null;
+  dieta: DadosDieta | null;
+  refeicoes: Record<string, DiaDieta>;
 
   concluirOnboarding: (p: Pick<Perfil, "pessoa" | "fim" | "objetivo" | "sofrencia">) => void;
   atualizarPerfil: (p: Partial<Perfil>) => void;
   novaFicha: (objetivo?: Objetivo) => void;
+  /** Premium: ficha nova com exercícios trocados e as cargas que você já usa. */
+  renovarFicha: () => void;
   ajustarItem: (letra: Plano["letra"], id: string, mudanca: Partial<ItemFicha>) => void;
   trocarItem: (letra: Plano["letra"], deId: string, paraId: string) => void;
   adicionarItem: (letra: Plano["letra"], id: string) => void;
@@ -81,16 +100,49 @@ type Estado = {
   adicionarFoto: (f: Foto) => void;
   removerFoto: (uri: string) => void;
   marcarBackup: () => void;
+  definirPremium: (p: Premium | null) => void;
+  salvarDadosDieta: (d: DadosDieta) => void;
+  alternarRefeicao: (dia: string, id: string) => void;
+  registrarExtra: (dia: string, e: Extra) => void;
+  removerExtra: (dia: string, i: number) => void;
   restaurar: (dados: Dados) => void;
 };
 
 /** A parte do estado que é salva (no aparelho e no backup). */
 export type Dados = Pick<
   Estado,
-  "perfil" | "ficha" | "historico" | "panico" | "sessao" | "diario" | "calmoAte" | "recentes" | "medidas" | "fotos" | "ultimoBackup"
+  | "perfil"
+  | "ficha"
+  | "historico"
+  | "panico"
+  | "sessao"
+  | "diario"
+  | "calmoAte"
+  | "recentes"
+  | "medidas"
+  | "fotos"
+  | "ultimoBackup"
+  | "premium"
+  | "dieta"
+  | "refeicoes"
 >;
 
-const CAMPOS: (keyof Dados)[] = ["perfil", "ficha", "historico", "panico", "sessao", "diario", "calmoAte", "recentes", "medidas", "fotos", "ultimoBackup"];
+const CAMPOS: (keyof Dados)[] = [
+  "perfil",
+  "ficha",
+  "historico",
+  "panico",
+  "sessao",
+  "diario",
+  "calmoAte",
+  "recentes",
+  "medidas",
+  "fotos",
+  "ultimoBackup",
+  "premium",
+  "dieta",
+  "refeicoes",
+];
 
 /** O modo calmo está ativo hoje? */
 export function emCalmo(calmoAte: string | null, hoje = diaLocal(new Date())): boolean {
@@ -117,6 +169,9 @@ export const useApp = create<Estado>()(
       medidas: [],
       fotos: [],
       ultimoBackup: null,
+      premium: null,
+      dieta: null,
+      refeicoes: {},
 
       concluirOnboarding: (p) =>
         set({
@@ -131,6 +186,10 @@ export const useApp = create<Estado>()(
         const obj = objetivo ?? get().perfil?.objetivo ?? "massa";
         set({ ficha: montarFicha(obj) });
         get().atualizarPerfil({ objetivo: obj });
+      },
+      renovarFicha: () => {
+        const ficha = get().ficha;
+        if (ficha) set({ ficha: renovar(ficha, get().historico) });
       },
       ajustarItem: (letra, id, mudanca) => {
         const ficha = get().ficha;
@@ -256,6 +315,8 @@ export const useApp = create<Estado>()(
           medidas: [],
           fotos: [],
           ultimoBackup: null,
+          dieta: null,
+          refeicoes: {},
         }),
 
       registrarHumor: (humor, texto) => {
@@ -285,10 +346,10 @@ export const useApp = create<Estado>()(
         if (p) set({ perfil: { ...p, fim: diaLocal(new Date()), pausadoEm: undefined } });
       },
       sortear: (sit, vars = {}) => {
-        const { perfil, recentes, calmoAte } = get();
+        const { perfil, recentes, calmoAte, premium } = get();
         const pessoa = perfil?.pessoa ?? "Essa pessoa";
         if (emCalmo(calmoAte)) return calmo(diaLocal(new Date()));
-        const r = sortearCom(sit, perfil?.zoeira ?? "M", recentes[sit] ?? [], { nome: perfil?.apelido, ...vars });
+        const r = sortearCom(sit, nivelEfetivo(perfil, premium), recentes[sit] ?? [], { nome: perfil?.apelido, ...vars });
         // Grava a memória fora do render atual.
         queueMicrotask(() => set({ recentes: { ...get().recentes, [sit]: r.recentes } }));
         return frase(r.texto, pessoa, { nome: perfil?.apelido, ...vars });
@@ -300,6 +361,22 @@ export const useApp = create<Estado>()(
       adicionarFoto: (f) => set({ fotos: [...get().fotos, f].sort((a, b) => a.dia.localeCompare(b.dia)) }),
       removerFoto: (uri) => set({ fotos: get().fotos.filter((f) => f.uri !== uri) }),
       marcarBackup: () => set({ ultimoBackup: new Date().toISOString() }),
+      definirPremium: (premium) => set({ premium }),
+      salvarDadosDieta: (dieta) => set({ dieta }),
+      alternarRefeicao: (dia, id) => {
+        const atual = get().refeicoes[dia] ?? { feitas: [], extras: [] };
+        const feitas = atual.feitas.includes(id) ? atual.feitas.filter((x) => x !== id) : [...atual.feitas, id];
+        set({ refeicoes: { ...get().refeicoes, [dia]: { ...atual, feitas } } });
+      },
+      registrarExtra: (dia, e) => {
+        const atual = get().refeicoes[dia] ?? { feitas: [], extras: [] };
+        set({ refeicoes: { ...get().refeicoes, [dia]: { ...atual, extras: [...atual.extras, e] } } });
+      },
+      removerExtra: (dia, i) => {
+        const atual = get().refeicoes[dia];
+        if (!atual) return;
+        set({ refeicoes: { ...get().refeicoes, [dia]: { ...atual, extras: atual.extras.filter((_, k) => k !== i) } } });
+      },
       restaurar: (dados) => {
         const limpo: Partial<Dados> = {};
         for (const k of CAMPOS) if (k in dados) (limpo as Record<string, unknown>)[k] = dados[k];
@@ -308,7 +385,7 @@ export const useApp = create<Estado>()(
     }),
     {
       name: "ex-ficha",
-      version: 2,
+      version: 3,
       storage: createJSONStorage(() => AsyncStorage),
       partialize: (e) => dadosDe(e),
       migrate: (salvo, versao) => {

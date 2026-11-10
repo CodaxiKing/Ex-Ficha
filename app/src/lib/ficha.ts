@@ -1,4 +1,4 @@
-import { cargaInicial } from "../data/exercicios";
+import { alternativas, cargaInicial, semCarga } from "../data/exercicios";
 import type { Ficha, ItemFicha, Objetivo, Plano, TreinoFeito } from "../data/tipos";
 
 /** Uma ficha vale quatro semanas. Depois, ficha nova. */
@@ -91,4 +91,35 @@ export function volume(t: TreinoFeito): number {
 
 export function totalSeries(t: TreinoFeito): number {
   return t.series.reduce((s, ex) => s + ex.feitas.length, 0);
+}
+
+/**
+ * Ficha nova do premium, a cada 4 semanas: em cada treino, metade dos exercícios
+ * troca por outro do mesmo grupo (girando a cada ficha) e as cargas que você já
+ * usa ficam. Exercício novo começa com a última carga que você usou nele, ou a inicial.
+ */
+function ultimaCarga(historico: TreinoFeito[], id: string): number | undefined {
+  for (let i = historico.length - 1; i >= 0; i--) {
+    const ex = historico[i].series.find((s) => s.id === id);
+    const f = ex?.feitas.at(-1);
+    if (f) return f.kg;
+  }
+  return undefined;
+}
+
+export function renovarFicha(ficha: Ficha, historico: TreinoFeito[], hoje = new Date()): Ficha {
+  const ciclo = historico.length;
+  const planos = ficha.planos.map((p) => {
+    const usados = new Set(p.itens.map((it) => it.id));
+    const itens = p.itens.map((it, i) => {
+      if ((i + ciclo) % 2 === 1) return it;
+      const opcoes = alternativas(it.id, 8).filter((a) => !usados.has(a.id));
+      const troca = opcoes[(ciclo + i) % Math.max(1, opcoes.length)];
+      if (!troca) return it;
+      usados.add(troca.id);
+      return { ...novoItem(troca.id, ficha.objetivo), kg: semCarga(troca.id) ? 0 : (ultimaCarga(historico, troca.id) ?? cargaInicial(troca.id)) };
+    });
+    return { ...p, itens };
+  });
+  return { criadaEm: hoje.toISOString(), objetivo: ficha.objetivo, planos };
 }
