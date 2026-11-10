@@ -4,10 +4,10 @@ import { Pressable, View } from "react-native";
 import { exercicio } from "../../data/exercicios";
 import { comSemana, diaLocal, inteiro, kg, somarDias } from "../../lib/datas";
 import { totalSeries, volume } from "../../lib/ficha";
-import { FIM, doDia, frase } from "../../lib/frases";
 import { diasTreinados, useApp } from "../../store";
 import { cor } from "../../theme";
 import { Botao, Card, Chip, T, Tela } from "../../ui/base";
+import { useFrase } from "../../ui/frase";
 import { IcFechar } from "../../ui/icones";
 
 export default function Fim() {
@@ -15,6 +15,8 @@ export default function Fim() {
   const historico = useApp((e) => e.historico);
   const perfil = useApp((e) => e.perfil);
   const t = historico.find((h) => h.data === data) ?? historico.at(-1);
+  const fraseFim = useFrase("fim", {}, t?.data ?? "");
+  const fraseRecorde = useFrase("recorde", {}, t?.data ?? "");
   if (!t || !perfil) return null;
 
   const dia = diaLocal(t.data);
@@ -60,7 +62,7 @@ export default function Fim() {
           kg levantados hoje
         </T>
       </View>
-      <T style={{ marginTop: 10 }}>{frase(doDia(FIM, t.data), perfil.pessoa)}</T>
+      <T style={{ marginTop: 10 }}>{recorde ? fraseRecorde : fraseFim}</T>
 
       <View style={{ flexDirection: "row", marginTop: 20, backgroundColor: cor.superficie, borderRadius: 16 }}>
         {[

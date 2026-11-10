@@ -9,7 +9,9 @@ import { useEffect } from "react";
 import { View } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
-import { useCarregado } from "../store";
+import { reagendarAvisos } from "../lib/avisos";
+import { fazerBackup, nuvemConfigurada, sessaoAtual } from "../lib/nuvem";
+import { useApp, useCarregado } from "../store";
 import { cor } from "../theme";
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
@@ -18,6 +20,36 @@ const tema = {
   ...DarkTheme,
   colors: { ...DarkTheme.colors, background: cor.chao, card: cor.chao, text: cor.texto, border: cor.borda, primary: cor.vermelho },
 };
+
+/** Reagenda os lembretes quando muda algo que afeta o texto ou o horário deles. */
+function Avisos() {
+  const avisos = useApp((e) => e.perfil?.avisos);
+  const zoeira = useApp((e) => e.perfil?.zoeira);
+  const pessoa = useApp((e) => e.perfil?.pessoa);
+  const treinos = useApp((e) => e.historico.length);
+  const calmoAte = useApp((e) => e.calmoAte);
+  const fichaDe = useApp((e) => e.ficha?.criadaEm);
+  useEffect(() => {
+    const t = setTimeout(() => {
+      reagendarAvisos().catch(() => {});
+    }, 800);
+    return () => clearTimeout(t);
+  }, [avisos, zoeira, pessoa, treinos, calmoAte, fichaDe]);
+  return null;
+}
+
+/** Backup automático na nuvem a cada treino novo, se houver conta. */
+function BackupAutomatico() {
+  const treinos = useApp((e) => e.historico.length);
+  useEffect(() => {
+    if (!nuvemConfigurada || treinos === 0) return;
+    const t = setTimeout(async () => {
+      if (await sessaoAtual()) fazerBackup().catch(() => {});
+    }, 3000);
+    return () => clearTimeout(t);
+  }, [treinos]);
+  return null;
+}
 
 export default function Raiz() {
   const [fontes] = useFonts({ Inter_400Regular, Inter_500Medium, Inter_600SemiBold, Anton_400Regular, UnifrakturCook_700Bold });
@@ -34,6 +66,8 @@ export default function Raiz() {
     <SafeAreaProvider>
       <ThemeProvider value={tema}>
         <StatusBar style="light" />
+        <Avisos />
+        <BackupAutomatico />
         <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: cor.chao }, animation: "fade" }}>
           <Stack.Screen name="panico" options={{ presentation: "fullScreenModal", animation: "fade" }} />
           <Stack.Screen name="treino/[letra]" options={{ gestureEnabled: false }} />

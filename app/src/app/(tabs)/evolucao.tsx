@@ -1,4 +1,5 @@
-import { View } from "react-native";
+import { router } from "expo-router";
+import { Pressable, View } from "react-native";
 import Svg, { Rect } from "react-native-svg";
 
 import { exercicio } from "../../data/exercicios";
@@ -8,7 +9,37 @@ import { frase } from "../../lib/frases";
 import { useApp } from "../../store";
 import { cor } from "../../theme";
 import { Card, T, Tela } from "../../ui/base";
-import { Anilha } from "../../ui/icones";
+import { Anilha, IcSeta } from "../../ui/icones";
+
+function Atalhos() {
+  const medidas = useApp((e) => e.medidas);
+  const fotos = useApp((e) => e.fotos);
+  const ultima = medidas.at(-1);
+  const itens = [
+    { t: "Medidas", s: ultima?.peso !== undefined ? `${String(ultima.peso).replace(".", ",")} kg em ${curta(ultima.dia)}` : "Peso, cintura, braço…", go: "/medidas" as const },
+    { t: "Fotos", s: fotos.length ? `${fotos.length} ${fotos.length === 1 ? "foto" : "fotos"} · só você vê` : "O antes e depois", go: "/fotos" as const },
+  ];
+  return (
+    <View style={{ flexDirection: "row", gap: 8, marginTop: 12 }}>
+      {itens.map((i) => (
+        <Pressable
+          key={i.t}
+          accessibilityRole="button"
+          onPress={() => router.push(i.go)}
+          style={({ pressed }) => ({ flex: 1, padding: 14, borderRadius: 16, backgroundColor: pressed ? cor.elevado : cor.superficie })}
+        >
+          <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+            <T peso="semi">{i.t}</T>
+            <IcSeta />
+          </View>
+          <T v="meta" numberOfLines={1}>
+            {i.s}
+          </T>
+        </Pressable>
+      ))}
+    </View>
+  );
+}
 
 export default function Evolucao() {
   const historico = useApp((e) => e.historico);
@@ -39,6 +70,7 @@ export default function Evolucao() {
             Evolução
           </T>
         </View>
+        <Atalhos />
         <View style={{ flex: 1, alignItems: "center", justifyContent: "center", gap: 18, paddingVertical: 40 }}>
           <Anilha tamanho={160} />
           <T peso="semi" tam={20} style={{ textAlign: "center" }}>
@@ -59,8 +91,9 @@ export default function Evolucao() {
           Evolução
         </T>
       </View>
+      <Atalhos />
 
-      <Card style={{ marginTop: 6 }}>
+      <Card style={{ marginTop: 12 }}>
         <T v="sub">Volume desde o fim</T>
         <View style={{ flexDirection: "row", alignItems: "baseline", gap: 8, marginTop: 2 }}>
           <T v="display" tam={48}>

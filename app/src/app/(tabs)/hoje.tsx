@@ -1,26 +1,62 @@
 import { Image } from "expo-image";
 import { router } from "expo-router";
-import { Pressable, View } from "react-native";
+import { Linking, Pressable, View } from "react-native";
 
 import { exercicio, semCarga } from "../../data/exercicios";
+import type { Ficha } from "../../data/tipos";
 import { comSemana, curta, diaLocal, diasEntre, kg, somarDias } from "../../lib/datas";
 import { minutosEstimados, proximoPlano } from "../../lib/ficha";
-import { ESTADO_HOME, doDia, frase } from "../../lib/frases";
-import { diasTreinados, useApp } from "../../store";
+import { calmo, marco } from "../../lib/frases";
+import { diasTreinados, emCalmo, type Perfil, useApp } from "../../store";
 import { cor, raio } from "../../theme";
 import { Botao, Card, Chip, T, Tela, toque } from "../../ui/base";
-import { IcMensagemX } from "../../ui/icones";
+import { useFrase } from "../../ui/frase";
+import { IcMensagemX, IcSeta } from "../../ui/icones";
 
-/** Quantos dias a faixa mostra (o canvas usa 23). */
+/** Quantos dias a faixa mostra. */
 const FAIXA = 28;
 
 export default function Hoje() {
   const perfil = useApp((e) => e.perfil);
   const ficha = useApp((e) => e.ficha);
+  const calmoAte = useApp((e) => e.calmoAte);
+  if (!perfil || !ficha) return null;
+  return emCalmo(calmoAte) ? <HojeCalmo ate={calmoAte!} /> : <HojeNormal perfil={perfil} ficha={ficha} />;
+}
+
+function Linha({ titulo, sub, onPress, fundo = cor.superficie }: { titulo: string; sub: string; onPress: () => void; fundo?: string }) {
+  return (
+    <Pressable
+      accessibilityRole="button"
+      onPress={() => {
+        toque();
+        onPress();
+      }}
+      style={({ pressed }) => ({
+        marginTop: 10,
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 12,
+        paddingVertical: 14,
+        paddingHorizontal: 16,
+        borderRadius: 16,
+        backgroundColor: pressed ? cor.elevado : fundo,
+      })}
+    >
+      <View style={{ flex: 1 }}>
+        <T peso="semi">{titulo}</T>
+        <T v="meta">{sub}</T>
+      </View>
+      <IcSeta />
+    </Pressable>
+  );
+}
+
+function HojeNormal({ perfil, ficha }: { perfil: Perfil; ficha: Ficha }) {
   const historico = useApp((e) => e.historico);
   const panico = useApp((e) => e.panico);
   const sessao = useApp((e) => e.sessao);
-  if (!perfil || !ficha) return null;
+  const diario = useApp((e) => e.diario);
 
   const hoje = diaLocal(new Date());
   const desde = diasEntre(perfil.fim, hoje);
@@ -34,12 +70,20 @@ export default function Hoje() {
   let seq = 0;
   for (let d = treinados.has(hoje) ? hoje : somarDias(hoje, -1); treinados.has(d); d = somarDias(d, -1)) seq++;
 
-  // Faixa: do dia do fim (ou dos últimos FAIXA dias) até hoje.
+  // Último treino: se faz dois dias ou mais, a frase é de volta.
+  const ultimo = historico.at(-1);
+  const semTreinar = ultimo ? diasEntre(diaLocal(ultimo.data), hoje) : 0;
+
   const n = Math.min(FAIXA, desde + 1);
   const faixa = Array.from({ length: n }, (_, i) => somarDias(hoje, i - n + 1));
 
   const plano = sessao ? ficha.planos.find((p) => p.letra === sessao.letra)! : proximoPlano(ficha, historico);
   const treinouHoje = treinados.has(hoje);
+  const humorHoje = diario.find((e) => e.dia === hoje);
+
+  const situacao = treinouHoje ? "hojeTreinou" : semTreinar >= 2 ? "voltou" : "hoje";
+  const sorteada = useFrase(situacao, { treino: plano.letra }, `${hoje}-${situacao}`);
+  const texto = marco(desde, perfil.zoeira) ?? sorteada;
 
   return (
     <Tela>
@@ -95,7 +139,7 @@ export default function Hoje() {
           </T>
         ) : null}
         {faltas > 0 && `${faltas} ${faltas === 1 ? "falta" : "faltas"} desde que você chegou. `}
-        {frase(doDia(ESTADO_HOME, hoje), perfil.pessoa)}
+        {texto}
       </T>
 
       <Card style={{ marginTop: 18, gap: 14 }}>
@@ -157,6 +201,42 @@ export default function Hoje() {
           <IcMensagemX />
         </View>
       </Pressable>
+
+      <Linha
+        titulo={humorHoje ? `Hoje: ${humorHoje.humor}` : "Como você tá hoje?"}
+        sub={humorHoje ? humorHoje.texto || "Toca pra mudar" : "Uma linha no diário"}
+        onPress={() => router.push("/diario")}
+      />
+    </Tela>
+  );
+}
+
+/** Modo calmo: sem zoeira, sem vermelho, ajuda no topo. Dura até `ate`. */
+function HojeCalmo({ ate }: { ate: string }) {
+  const hoje = diaLocal(new Date());
+  return (
+    <Tela>
+      <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", height: 44 }}>
+        <T peso="semi" tam={16}>
+          ex-ficha
+        </T>
+        <Chip>{`Frases pausadas até ${curta(ate)}`}</Chip>
+      </View>
+      <T peso="semi" tam={30} style={{ marginTop: 22, lineHeight: 36 }} accessibilityRole="header">
+        Hoje sem zoeira.
+      </T>
+      <T tam={16} c={cor.apagado} style={{ marginTop: 10, lineHeight: 23 }}>
+        {calmo(hoje)}
+      </T>
+      <Card style={{ marginTop: 18 }}>
+        <T peso="semi" tam={17}>
+          Caminhada e alongamento
+        </T>
+        <T v="meta">20 min · sem carga · se você quiser</T>
+      </Card>
+      <Linha titulo="CVV · 188" sub="Se apertar, liga. A qualquer hora, de graça." onPress={() => Linking.openURL("tel:188")} />
+      <Linha titulo="Como você tá hoje?" sub="Uma linha no diário" onPress={() => router.push("/diario")} />
+      <Linha titulo="Treinar mesmo assim" sub="A ficha continua aqui" onPress={() => router.push("/treinos")} />
     </Tela>
   );
 }

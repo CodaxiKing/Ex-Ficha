@@ -3,11 +3,19 @@ import { useState } from "react";
 import { Platform, Pressable, View } from "react-native";
 import Svg, { Circle } from "react-native-svg";
 
-import { diaLocal, inteiro } from "../lib/datas";
-import { PANICO, doDia, frase } from "../lib/frases";
+import { inteiro } from "../lib/datas";
+import { doDia } from "../lib/frases";
 import { useApp } from "../store";
 import { cor } from "../theme";
 import { Barra, Botao, T, Tela, voltar } from "../ui/base";
+import { useFrase } from "../ui/frase";
+
+/** Rascunhos que a pessoa estava prestes a mandar. */
+const RASCUNHOS = {
+  Ela: ["Oi, sumida.", "Tá acordada?", "Vi uma coisa e lembrei de você.", "Só queria saber se você tá bem.", "Podemos conversar?", "Ainda tá com aquela minha blusa?", "Saudade de você, sabia?"],
+  Ele: ["Oi, sumido.", "Tá acordado?", "Vi uma coisa e lembrei de você.", "Só queria saber se você tá bem.", "Podemos conversar?", "Ainda tá com aquela minha blusa?", "Saudade de você, sabia?"],
+  "Essa pessoa": ["Oi, tudo bem?", "Vi uma coisa e lembrei de você.", "Só queria saber se você tá bem.", "Podemos conversar?", "Ainda tá com aquela minha blusa?"],
+};
 
 const META = 20;
 const R = 108;
@@ -19,7 +27,12 @@ export default function Panico() {
   const registrar = useApp((e) => e.registrarCrise);
   const [feitas, setFeitas] = useState(0);
   const [insistiu, setInsistiu] = useState(false);
+  const [aberto] = useState(() => Date.now());
+  const frasePanico = useFrase("panico");
+  const fraseInsiste = useFrase("panicoInsiste", {}, insistiu ? "sim" : "nao");
+  const fraseVenceu = useFrase("panicoVenceu");
   if (!perfil) return null;
+  const rascunho = doDia(RASCUNHOS[perfil.pessoa], String(aberto), panico.crises);
 
   const faltam = Math.max(0, META - feitas);
   const fechar = (enviou: boolean) => {
@@ -63,10 +76,12 @@ export default function Panico() {
       />
       {insistiu ? (
         <View style={{ marginTop: 18 }}>
-          <T v="pergunta">{frase("Antes de mandar, lê em voz alta.", perfil.pessoa)}</T>
-          <T tam={18} style={{ marginTop: 18, lineHeight: 26 }}>
-            {`“${{ Ela: "Oi, sumida.", Ele: "Oi, sumido.", "Essa pessoa": "Oi, tudo bem?" }[perfil.pessoa]}” `}
-            {frase("Às duas da manhã. Depois de {ela} ter ido embora. Você leu e ainda acha uma boa ideia?", perfil.pessoa)}
+          <T v="pergunta">Antes de mandar, lê em voz alta.</T>
+          <T v="display" tam={40} style={{ marginTop: 18, lineHeight: 44 }}>
+            {`“${rascunho}”`}
+          </T>
+          <T tam={18} style={{ marginTop: 14, lineHeight: 26 }}>
+            {fraseInsiste}
           </T>
           <T v="sub" style={{ marginTop: 14 }}>
             {panico.crises > 0
@@ -112,7 +127,7 @@ export default function Panico() {
             Toca no anel a cada flexão
           </T>
           <T tam={16} c={cor.apagado} style={{ marginTop: 14, lineHeight: 23 }}>
-            {faltam === 0 ? "Vinte. A vontade passou? Quase sempre passa na décima." : doDia(PANICO, diaLocal(new Date()), panico.crises)}
+            {faltam === 0 ? fraseVenceu : frasePanico}
           </T>
           <View style={{ flexDirection: "row", marginTop: 18, backgroundColor: "#170b0d", borderRadius: 16 }}>
             {[

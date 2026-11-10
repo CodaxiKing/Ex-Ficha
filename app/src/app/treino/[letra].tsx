@@ -7,11 +7,11 @@ import { Platform, Pressable, View } from "react-native";
 
 import { exercicio, semCarga } from "../../data/exercicios";
 import type { Plano } from "../../data/tipos";
-import { diaLocal, kg, mmss } from "../../lib/datas";
-import { DESCANSO, doDia, frase } from "../../lib/frases";
+import { kg, mmss } from "../../lib/datas";
 import { useApp } from "../../store";
 import { cor } from "../../theme";
 import { Barra, Botao, Passo, T, Tela, toque, voltar } from "../../ui/base";
+import { useFrase } from "../../ui/frase";
 import { IcCheck } from "../../ui/icones";
 
 /** Mantém a tela acesa durante o treino. No navegador o pedido pode ser negado; aí só segue sem. */
@@ -82,6 +82,11 @@ export default function Treino() {
   const carga = ajuste && ajuste.id === item?.id ? ajuste.kg : (ultima?.kg ?? item?.kg ?? 0);
   const setReps = (f: (r: number) => number) => item && setAjuste({ id: item.id, reps: f(reps), kg: carga });
   const setCarga = (f: (c: number) => number) => item && setAjuste({ id: item.id, reps, kg: f(carga) });
+
+  // Uma frase nova a cada descanso, sem repetir as últimas.
+  const seriesFeitas = ativa ? ativa.feitas.reduce((s, f) => s + f.length, 0) : 0;
+  const seriesTotal = plano ? plano.itens.reduce((s, it) => s + it.series, 0) : 0;
+  const fraseDescanso = useFrase("descanso", { faltam: seriesTotal - seriesFeitas }, ativa?.descansoAte ?? "");
 
   if (!plano || !perfil) return null;
 
@@ -220,7 +225,7 @@ export default function Treino() {
           <T v="display" tam={88} style={{ lineHeight: 92 }} accessibilityLabel={`${Math.ceil(restante)} segundos de descanso`}>
             {mmss(Math.ceil(restante))}
           </T>
-          <T style={{ marginTop: 8 }}>{frase(doDia(DESCANSO, diaLocal(new Date()), feitas), perfil.pessoa)}</T>
+          <T style={{ marginTop: 8 }}>{fraseDescanso}</T>
           {e && (
             <T v="sub" style={{ marginTop: 10 }}>
               Próxima: {e.nome}, série {feitasAtual.length + 1} de {item!.series}.

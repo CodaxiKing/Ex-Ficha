@@ -18,6 +18,19 @@ npm start         # QR code para o Expo Go no celular
 - **Botão de pânico:** 20 flexões contadas no toque, placar de crises e mensagens enviadas.
 - **Biblioteca:** 42 exercícios com busca e filtro por grupo; tela do exercício com o GIF, passos, ajuste, troca por outro do mesmo grupo e "colocar na ficha".
 - **Evolução e Perfil:** volume, recordes pós-término, editar pessoa, data e objetivo, apagar tudo.
+- **Banco de frases:** 185 frases em 22 situações, mais as de marco e três níveis (leve, médio, sem dó, escolhido no Perfil). O sorteio não repete as frases vistas recentemente. Marcos nos dias 1, 7, 14, 21, 30, 60, 90, 100, 180 e 365.
+- **Lembretes:** bom dia, cobrança às 19h se não treinou, aviso de sexta e sábado à noite e ficha vencendo. Os próximos 7 dias são reagendados a cada abertura e a cada treino.
+- **Diário e modo sério:** uma linha por dia com o humor. Três "Morto" seguidos abrem o modo sério (CVV 188, chat, SAMU 192) e pausam a zoeira e as cobranças por 7 dias; dá pra voltar antes no Perfil.
+- **Medidas e fotos:** peso com gráfico, cintura, peito, braço e coxa com a diferença desde a primeira medida; fotos da semana guardadas só no aparelho.
+- **Conta e backup:** criar conta e entrar por e-mail (Supabase), backup manual e automático a cada treino, restaurar. Sem configurar o Supabase, o app funciona igual e só a tela de conta avisa.
+
+## Configurar a conta (Supabase)
+1. Crie um projeto em supabase.com.
+2. No SQL Editor, rode `supabase/schema.sql` (tabela `backups` com acesso só ao próprio dono).
+3. Copie `.env.example` para `.env` e preencha a URL e a chave publicável do projeto (nunca a `service_role`).
+4. Reinicie o `npm start`.
+
+Lembretes, câmera e galeria precisam do app no celular. No Expo Go os lembretes locais funcionam; para publicar, gere um build com o EAS.
 
 ## Estrutura
 - `src/app/`: as telas (cada arquivo é uma rota).
@@ -27,4 +40,4 @@ npm start         # QR code para o Expo Go no celular
 - `src/data/exercicios.gen.ts`: gerado por `npm run sync-exercicios` a partir de `../exercicios/dist`.
 
 ## Ainda não tem
-Login e conta, dieta, modo sério, liga e X1, fotos e medidas, notificações, modo superou. Estão desenhados no canvas.
+Entrar com Apple e Google, dieta, liga e X1, Clube dos Trocados, modo superou e o card do Stories. Estão desenhados no canvas.
