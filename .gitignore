@@ -1,0 +1,14 @@
+# arquivos de trabalho do design (prints, testes, rascunhos)
+.taste-skill/
+
+# caches de build
+__pycache__/
+exercicios/fonte/fotos/
+exercicios/fonte-exercisedb/
+
+# derivados gerados durante o design
+canvas/assets/photos/_datauris.json
+
+.DS_Store
+Thumbs.db
+.env

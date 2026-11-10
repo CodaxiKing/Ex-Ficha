@@ -1,0 +1,1142 @@
+[
+ {
+  "id": "Dumbbell_Flyes",
+  "nome": "Crucifixo com halteres",
+  "nome_original": "Dumbbell Flyes",
+  "traduzido": true,
+  "grupo": "Peito",
+  "musculos_principais": [
+   "peito"
+  ],
+  "musculos_secundarios": [],
+  "equipamento": "halteres",
+  "nivel": "iniciante",
+  "tipo": "força",
+  "forca": "empurrar",
+  "mecanica": "isolado",
+  "passos": [
+   "Deita com os halteres acima do peito, cotovelos levemente dobrados.",
+   "Abre os braços em arco até sentir o peito esticar.",
+   "Fecha o movimento como se abraçasse uma árvore."
+  ],
+  "dica": "Abre os braços como quem aceita que acabou.",
+  "gif": "gifs/Dumbbell_Flyes.webp",
+  "capa": "gifs/Dumbbell_Flyes.jpg",
+  "fonte": "free-exercise-db (domínio público), imagens tratadas pelo Ex-Ficha"
+ },
+ {
+  "id": "Pushups",
+  "nome": "Flexão de braço",
+  "nome_original": "Pushups",
+  "traduzido": true,
+  "grupo": "Peito",
+  "musculos_principais": [
+   "peito"
+  ],
+  "musculos_secundarios": [
+   "ombros",
+   "tríceps"
+  ],
+  "equipamento": "peso do corpo",
+  "nivel": "iniciante",
+  "tipo": "força",
+  "forca": "empurrar",
+  "mecanica": "multiarticular",
+  "passos": [
+   "Mãos um pouco além da largura dos ombros, corpo reto da cabeça ao pé.",
+   "Desce até o peito quase encostar no chão.",
+   "Empurra de volta sem deixar o quadril cair."
+  ],
+  "dica": "A moeda do botão de pânico. Vinte e a vontade passa.",
+  "gif": "gifs/Pushups.webp",
+  "capa": "gifs/Pushups.jpg",
+  "fonte": "free-exercise-db (domínio público), imagens tratadas pelo Ex-Ficha"
+ },
+ {
+  "id": "Dips_-_Chest_Version",
+  "nome": "Paralelas para peito",
+  "nome_original": "Dips - Chest Version",
+  "traduzido": true,
+  "grupo": "Peito",
+  "musculos_principais": [
+   "peito"
+  ],
+  "musculos_secundarios": [
+   "ombros",
+   "tríceps"
+  ],
+  "equipamento": "outro",
+  "nivel": "intermediário",
+  "tipo": "força",
+  "forca": "empurrar",
+  "mecanica": "multiarticular",
+  "passos": [
+   "Apoia nas barras com os braços esticados.",
+   "Inclina o tronco à frente e desce até os ombros passarem dos cotovelos.",
+   "Empurra de volta para cima."
+  ],
+  "dica": "Inclina o tronco pra frente. Pra trás você já olhou demais.",
+  "gif": "gifs/Dips_-_Chest_Version.webp",
+  "capa": "gifs/Dips_-_Chest_Version.jpg",
+  "fonte": "free-exercise-db (domínio público), imagens tratadas pelo Ex-Ficha"
+ },
+ {
+  "id": "Barbell_Incline_Bench_Press_-_Medium_Grip",
+  "nome": "Supino inclinado com barra",
+  "nome_original": "Barbell Incline Bench Press - Medium Grip",
+  "traduzido": true,
+  "grupo": "Peito",
+  "musculos_principais": [
+   "peito"
+  ],
+  "musculos_secundarios": [
+   "ombros",
+   "tríceps"
+  ],
+  "equipamento": "barra",
+  "nivel": "iniciante",
+  "tipo": "força",
+  "forca": "empurrar",
+  "mecanica": "multiarticular",
+  "passos": [
+   "Ajusta o banco entre 30 e 45 graus.",
+   "Desce a barra até a parte alta do peito.",
+   "Empurra para cima mantendo as escápulas presas no banco."
+  ],
+  "dica": "A parte de cima do peito também foi abandonada. Cuida dela.",
+  "gif": "gifs/Barbell_Incline_Bench_Press_-_Medium_Grip.webp",
+  "capa": "gifs/Barbell_Incline_Bench_Press_-_Medium_Grip.jpg",
+  "fonte": "free-exercise-db (domínio público), imagens tratadas pelo Ex-Ficha"
+ },
+ {
+  "id": "Barbell_Bench_Press_-_Medium_Grip",
+  "nome": "Supino reto com barra",
+  "nome_original": "Barbell Bench Press - Medium Grip",
+  "traduzido": true,
+  "grupo": "Peito",
+  "musculos_principais": [
+   "peito"
+  ],
+  "musculos_secundarios": [
+   "ombros",
+   "tríceps"
+  ],
+  "equipamento": "barra",
+  "nivel": "iniciante",
+  "tipo": "força",
+  "forca": "empurrar",
+  "mecanica": "multiarticular",
+  "passos": [
+   "Deita no banco com os olhos embaixo da barra e os pés firmes no chão.",
+   "Pega a barra um pouco além da largura dos ombros e tira do suporte.",
+   "Desce até encostar no meio do peito e empurra de volta, sem tirar o quadril do banco."
+  ],
+  "dica": "Desce a barra até o peito. Devagar, igual a ficha caindo.",
+  "gif": "gifs/Barbell_Bench_Press_-_Medium_Grip.webp",
+  "capa": "gifs/Barbell_Bench_Press_-_Medium_Grip.jpg",
+  "fonte": "free-exercise-db (domínio público), imagens tratadas pelo Ex-Ficha"
+ },
+ {
+  "id": "Dumbbell_Bench_Press",
+  "nome": "Supino reto com halteres",
+  "nome_original": "Dumbbell Bench Press",
+  "traduzido": true,
+  "grupo": "Peito",
+  "musculos_principais": [
+   "peito"
+  ],
+  "musculos_secundarios": [
+   "ombros",
+   "tríceps"
+  ],
+  "equipamento": "halteres",
+  "nivel": "iniciante",
+  "tipo": "força",
+  "forca": "empurrar",
+  "mecanica": "multiarticular",
+  "passos": [
+   "Deita no banco com um halter em cada mão, na altura do peito.",
+   "Empurra os dois para cima até quase esticar os braços.",
+   "Desce controlando até sentir o peito alongar."
+  ],
+  "dica": "Um halter de cada lado. Equilíbrio é coisa que se treina.",
+  "gif": "gifs/Dumbbell_Bench_Press.webp",
+  "capa": "gifs/Dumbbell_Bench_Press.jpg",
+  "fonte": "free-exercise-db (domínio público), imagens tratadas pelo Ex-Ficha"
+ },
+ {
+  "id": "Butterfly",
+  "nome": "Voador (peck deck)",
+  "nome_original": "Butterfly",
+  "traduzido": true,
+  "grupo": "Peito",
+  "musculos_principais": [
+   "peito"
+  ],
+  "musculos_secundarios": [],
+  "equipamento": "máquina",
+  "nivel": "iniciante",
+  "tipo": "força",
+  "forca": "puxar",
+  "mecanica": "isolado",
+  "passos": [
+   "Senta com as costas apoiadas e ajusta a altura das alças ao peito.",
+   "Junta as alças à frente sem bater uma na outra.",
+   "Volta abrindo devagar até o alongamento."
+  ],
+  "dica": "Fecha devagar. Porta batida só em novela.",
+  "gif": "gifs/Butterfly.webp",
+  "capa": "gifs/Butterfly.jpg",
+  "fonte": "free-exercise-db (domínio público), imagens tratadas pelo Ex-Ficha"
+ },
+ {
+  "id": "Pullups",
+  "nome": "Barra fixa",
+  "nome_original": "Pullups",
+  "traduzido": true,
+  "grupo": "Costas",
+  "musculos_principais": [
+   "dorsal"
+  ],
+  "musculos_secundarios": [
+   "bíceps",
+   "meio das costas"
+  ],
+  "equipamento": "peso do corpo",
+  "nivel": "iniciante",
+  "tipo": "força",
+  "forca": "puxar",
+  "mecanica": "multiarticular",
+  "passos": [
+   "Pendura na barra com as mãos um pouco além dos ombros.",
+   "Sobe até o queixo passar da barra.",
+   "Desce até esticar os braços."
+  ],
+  "dica": "Se levantar sozinho também é exercício.",
+  "gif": "gifs/Pullups.webp",
+  "capa": "gifs/Pullups.jpg",
+  "fonte": "free-exercise-db (domínio público), imagens tratadas pelo Ex-Ficha"
+ },
+ {
+  "id": "Barbell_Deadlift",
+  "nome": "Levantamento terra",
+  "nome_original": "Barbell Deadlift",
+  "traduzido": true,
+  "grupo": "Costas",
+  "musculos_principais": [
+   "lombar"
+  ],
+  "musculos_secundarios": [
+   "panturrilha",
+   "antebraço",
+   "glúteos",
+   "posterior de coxa",
+   "dorsal",
+   "meio das costas",
+   "quadríceps",
+   "trapézio"
+  ],
+  "equipamento": "barra",
+  "nivel": "intermediário",
+  "tipo": "força",
+  "forca": "puxar",
+  "mecanica": "multiarticular",
+  "passos": [
+   "Pés na largura do quadril, barra sobre o meio do pé.",
+   "Pega a barra, coluna reta, e sobe empurrando o chão com as pernas.",
+   "Desce a barra rente às pernas até o chão."
+  ],
+  "dica": "Levanta o peso do chão. O resto você levanta depois.",
+  "gif": "gifs/Barbell_Deadlift.webp",
+  "capa": "gifs/Barbell_Deadlift.jpg",
+  "fonte": "free-exercise-db (domínio público), imagens tratadas pelo Ex-Ficha"
+ },
+ {
+  "id": "Rope_Straight-Arm_Pulldown",
+  "nome": "Pulldown com corda",
+  "nome_original": "Rope Straight-Arm Pulldown",
+  "traduzido": true,
+  "grupo": "Costas",
+  "musculos_principais": [
+   "dorsal"
+  ],
+  "musculos_secundarios": [],
+  "equipamento": "polia",
+  "nivel": "iniciante",
+  "tipo": "força",
+  "forca": "puxar",
+  "mecanica": "isolado",
+  "passos": [
+   "Em pé de frente para a polia alta, segura a corda com os braços esticados.",
+   "Leva a corda até as coxas sem dobrar os cotovelos.",
+   "Volta devagar até a altura dos olhos."
+  ],
+  "dica": "Braço esticado, coração também.",
+  "gif": "gifs/Rope_Straight-Arm_Pulldown.webp",
+  "capa": "gifs/Rope_Straight-Arm_Pulldown.jpg",
+  "fonte": "free-exercise-db (domínio público), imagens tratadas pelo Ex-Ficha"
+ },
+ {
+  "id": "Wide-Grip_Lat_Pulldown",
+  "nome": "Puxada frontal aberta",
+  "nome_original": "Wide-Grip Lat Pulldown",
+  "traduzido": true,
+  "grupo": "Costas",
+  "musculos_principais": [
+   "dorsal"
+  ],
+  "musculos_secundarios": [
+   "bíceps",
+   "meio das costas",
+   "ombros"
+  ],
+  "equipamento": "polia",
+  "nivel": "iniciante",
+  "tipo": "força",
+  "forca": "puxar",
+  "mecanica": "multiarticular",
+  "passos": [
+   "Senta com as coxas presas e pega a barra bem aberta.",
+   "Puxa a barra até a parte de cima do peito levando os cotovelos para baixo.",
+   "Volta devagar até esticar os braços."
+  ],
+  "dica": "Puxa até o peito. Só não puxa assunto.",
+  "gif": "gifs/Wide-Grip_Lat_Pulldown.webp",
+  "capa": "gifs/Wide-Grip_Lat_Pulldown.jpg",
+  "fonte": "free-exercise-db (domínio público), imagens tratadas pelo Ex-Ficha"
+ },
+ {
+  "id": "Close-Grip_Front_Lat_Pulldown",
+  "nome": "Puxada frontal fechada",
+  "nome_original": "Close-Grip Front Lat Pulldown",
+  "traduzido": true,
+  "grupo": "Costas",
+  "musculos_principais": [
+   "dorsal"
+  ],
+  "musculos_secundarios": [
+   "bíceps",
+   "meio das costas",
+   "ombros"
+  ],
+  "equipamento": "polia",
+  "nivel": "iniciante",
+  "tipo": "força",
+  "forca": "puxar",
+  "mecanica": "multiarticular",
+  "passos": [
+   "Pega a barra com as mãos na largura dos ombros.",
+   "Puxa até o peito com o tronco levemente inclinado para trás.",
+   "Volta controlando."
+  ],
+  "dica": "Pegada fechada, guarda fechada.",
+  "gif": "gifs/Close-Grip_Front_Lat_Pulldown.webp",
+  "capa": "gifs/Close-Grip_Front_Lat_Pulldown.jpg",
+  "fonte": "free-exercise-db (domínio público), imagens tratadas pelo Ex-Ficha"
+ },
+ {
+  "id": "Seated_Cable_Rows",
+  "nome": "Remada baixa no cabo",
+  "nome_original": "Seated Cable Rows",
+  "traduzido": true,
+  "grupo": "Costas",
+  "musculos_principais": [
+   "meio das costas"
+  ],
+  "musculos_secundarios": [
+   "bíceps",
+   "dorsal",
+   "ombros"
+  ],
+  "equipamento": "polia",
+  "nivel": "iniciante",
+  "tipo": "força",
+  "forca": "puxar",
+  "mecanica": "multiarticular",
+  "passos": [
+   "Senta com os pés apoiados e os joelhos levemente dobrados.",
+   "Puxa o triângulo até o abdômen estufando o peito.",
+   "Volta esticando os braços sem curvar as costas."
+  ],
+  "dica": "Traz pra perto. Pelo menos o cabo volta.",
+  "gif": "gifs/Seated_Cable_Rows.webp",
+  "capa": "gifs/Seated_Cable_Rows.jpg",
+  "fonte": "free-exercise-db (domínio público), imagens tratadas pelo Ex-Ficha"
+ },
+ {
+  "id": "Bent_Over_Barbell_Row",
+  "nome": "Remada curvada com barra",
+  "nome_original": "Bent Over Barbell Row",
+  "traduzido": true,
+  "grupo": "Costas",
+  "musculos_principais": [
+   "meio das costas"
+  ],
+  "musculos_secundarios": [
+   "bíceps",
+   "dorsal",
+   "ombros"
+  ],
+  "equipamento": "barra",
+  "nivel": "iniciante",
+  "tipo": "força",
+  "forca": "puxar",
+  "mecanica": "multiarticular",
+  "passos": [
+   "Inclina o tronco à frente com os joelhos levemente dobrados e a coluna reta.",
+   "Puxa a barra até a altura do umbigo.",
+   "Desce até esticar os braços sem perder a postura."
+  ],
+  "dica": "Coluna reta. Postura de quem não volta atrás.",
+  "gif": "gifs/Bent_Over_Barbell_Row.webp",
+  "capa": "gifs/Bent_Over_Barbell_Row.jpg",
+  "fonte": "free-exercise-db (domínio público), imagens tratadas pelo Ex-Ficha"
+ },
+ {
+  "id": "One-Arm_Dumbbell_Row",
+  "nome": "Remada unilateral com halter",
+  "nome_original": "One-Arm Dumbbell Row",
+  "traduzido": true,
+  "grupo": "Costas",
+  "musculos_principais": [
+   "meio das costas"
+  ],
+  "musculos_secundarios": [
+   "bíceps",
+   "dorsal",
+   "ombros"
+  ],
+  "equipamento": "halteres",
+  "nivel": "iniciante",
+  "tipo": "força",
+  "forca": "puxar",
+  "mecanica": "multiarticular",
+  "passos": [
+   "Apoia um joelho e uma mão no banco, com as costas paralelas ao chão.",
+   "Puxa o halter até o quadril levando o cotovelo para trás.",
+   "Desce até esticar o braço e repete do outro lado."
+  ],
+  "dica": "Puxa o cotovelo pra trás, não o ombro pra cima.",
+  "gif": "gifs/One-Arm_Dumbbell_Row.webp",
+  "capa": "gifs/One-Arm_Dumbbell_Row.jpg",
+  "fonte": "free-exercise-db (domínio público), imagens tratadas pelo Ex-Ficha"
+ },
+ {
+  "id": "Barbell_Shoulder_Press",
+  "nome": "Desenvolvimento com barra",
+  "nome_original": "Barbell Shoulder Press",
+  "traduzido": true,
+  "grupo": "Ombros",
+  "musculos_principais": [
+   "ombros"
+  ],
+  "musculos_secundarios": [
+   "peito",
+   "tríceps"
+  ],
+  "equipamento": "barra",
+  "nivel": "intermediário",
+  "tipo": "força",
+  "forca": "empurrar",
+  "mecanica": "multiarticular",
+  "passos": [
+   "Segura a barra na altura do peito com as mãos além dos ombros.",
+   "Empurra acima da cabeça.",
+   "Desce controlando até o peito."
+  ],
+  "dica": "Empurra pra cima. Pra baixo já foi o bastante.",
+  "gif": "gifs/Barbell_Shoulder_Press.webp",
+  "capa": "gifs/Barbell_Shoulder_Press.jpg",
+  "fonte": "free-exercise-db (domínio público), imagens tratadas pelo Ex-Ficha"
+ },
+ {
+  "id": "Dumbbell_Shoulder_Press",
+  "nome": "Desenvolvimento com halteres",
+  "nome_original": "Dumbbell Shoulder Press",
+  "traduzido": true,
+  "grupo": "Ombros",
+  "musculos_principais": [
+   "ombros"
+  ],
+  "musculos_secundarios": [
+   "tríceps"
+  ],
+  "equipamento": "halteres",
+  "nivel": "intermediário",
+  "tipo": "força",
+  "forca": "empurrar",
+  "mecanica": "multiarticular",
+  "passos": [
+   "Senta com as costas apoiadas e os halteres na altura das orelhas.",
+   "Empurra para cima até quase esticar os braços.",
+   "Desce até a altura das orelhas."
+  ],
+  "dica": "Ombro largo carrega mais coisa. Inclusive passado.",
+  "gif": "gifs/Dumbbell_Shoulder_Press.webp",
+  "capa": "gifs/Dumbbell_Shoulder_Press.jpg",
+  "fonte": "free-exercise-db (domínio público), imagens tratadas pelo Ex-Ficha"
+ },
+ {
+  "id": "Side_Lateral_Raise",
+  "nome": "Elevação lateral",
+  "nome_original": "Side Lateral Raise",
+  "traduzido": true,
+  "grupo": "Ombros",
+  "musculos_principais": [
+   "ombros"
+  ],
+  "musculos_secundarios": [],
+  "equipamento": "halteres",
+  "nivel": "iniciante",
+  "tipo": "força",
+  "forca": "empurrar",
+  "mecanica": "isolado",
+  "passos": [
+   "Em pé com um halter em cada mão ao lado do corpo.",
+   "Sobe os braços pelas laterais até a altura dos ombros.",
+   "Desce devagar."
+  ],
+  "dica": "Carga leve, ego mais leve ainda.",
+  "gif": "gifs/Side_Lateral_Raise.webp",
+  "capa": "gifs/Side_Lateral_Raise.jpg",
+  "fonte": "free-exercise-db (domínio público), imagens tratadas pelo Ex-Ficha"
+ },
+ {
+  "id": "Dumbbell_Shrug",
+  "nome": "Encolhimento com halteres",
+  "nome_original": "Dumbbell Shrug",
+  "traduzido": true,
+  "grupo": "Ombros",
+  "musculos_principais": [
+   "trapézio"
+  ],
+  "musculos_secundarios": [],
+  "equipamento": "halteres",
+  "nivel": "iniciante",
+  "tipo": "força",
+  "forca": "puxar",
+  "mecanica": "isolado",
+  "passos": [
+   "Em pé com os halteres ao lado do corpo.",
+   "Sobe os ombros em direção às orelhas.",
+   "Segura um segundo e desce."
+  ],
+  "dica": "Encolhe o ombro. Pra ela você já encolheu demais.",
+  "gif": "gifs/Dumbbell_Shrug.webp",
+  "capa": "gifs/Dumbbell_Shrug.jpg",
+  "fonte": "free-exercise-db (domínio público), imagens tratadas pelo Ex-Ficha"
+ },
+ {
+  "id": "Face_Pull",
+  "nome": "Face pull",
+  "nome_original": "Face Pull",
+  "traduzido": true,
+  "grupo": "Ombros",
+  "musculos_principais": [
+   "ombros"
+  ],
+  "musculos_secundarios": [
+   "meio das costas"
+  ],
+  "equipamento": "polia",
+  "nivel": "intermediário",
+  "tipo": "força",
+  "forca": "puxar",
+  "mecanica": "multiarticular",
+  "passos": [
+   "Polia na altura do rosto, segura a corda com as palmas para baixo.",
+   "Puxa em direção ao rosto abrindo os cotovelos.",
+   "Volta devagar."
+  ],
+  "dica": "Puxa até o rosto. A cara de quem superou vem depois.",
+  "gif": "gifs/Face_Pull.webp",
+  "capa": "gifs/Face_Pull.jpg",
+  "fonte": "free-exercise-db (domínio público), imagens tratadas pelo Ex-Ficha"
+ },
+ {
+  "id": "Bench_Dips",
+  "nome": "Mergulho no banco",
+  "nome_original": "Bench Dips",
+  "traduzido": true,
+  "grupo": "Braços",
+  "musculos_principais": [
+   "tríceps"
+  ],
+  "musculos_secundarios": [
+   "peito",
+   "ombros"
+  ],
+  "equipamento": "peso do corpo",
+  "nivel": "iniciante",
+  "tipo": "força",
+  "forca": "empurrar",
+  "mecanica": "multiarticular",
+  "passos": [
+   "Apoia as mãos na borda do banco com as pernas à frente.",
+   "Dobra os cotovelos descendo o quadril.",
+   "Empurra de volta para cima."
+  ],
+  "dica": "Desce e volta. Igual humor de quem terminou.",
+  "gif": "gifs/Bench_Dips.webp",
+  "capa": "gifs/Bench_Dips.jpg",
+  "fonte": "free-exercise-db (domínio público), imagens tratadas pelo Ex-Ficha"
+ },
+ {
+  "id": "Preacher_Curl",
+  "nome": "Rosca Scott",
+  "nome_original": "Preacher Curl",
+  "traduzido": true,
+  "grupo": "Braços",
+  "musculos_principais": [
+   "bíceps"
+  ],
+  "musculos_secundarios": [],
+  "equipamento": "barra",
+  "nivel": "iniciante",
+  "tipo": "força",
+  "forca": "puxar",
+  "mecanica": "isolado",
+  "passos": [
+   "Apoia a parte de trás dos braços no banco Scott.",
+   "Sobe a barra até perto dos ombros.",
+   "Desce devagar sem esticar de uma vez."
+  ],
+  "dica": "Braço apoiado. Apoio que não some.",
+  "gif": "gifs/Preacher_Curl.webp",
+  "capa": "gifs/Preacher_Curl.jpg",
+  "fonte": "free-exercise-db (domínio público), imagens tratadas pelo Ex-Ficha"
+ },
+ {
+  "id": "Concentration_Curls",
+  "nome": "Rosca concentrada",
+  "nome_original": "Concentration Curls",
+  "traduzido": true,
+  "grupo": "Braços",
+  "musculos_principais": [
+   "bíceps"
+  ],
+  "musculos_secundarios": [
+   "antebraço"
+  ],
+  "equipamento": "halteres",
+  "nivel": "iniciante",
+  "tipo": "força",
+  "forca": "puxar",
+  "mecanica": "isolado",
+  "passos": [
+   "Sentado, apoia o cotovelo na parte de dentro da coxa.",
+   "Sobe o halter até o ombro.",
+   "Desce até esticar o braço."
+  ],
+  "dica": "Concentra. No bíceps, não no story.",
+  "gif": "gifs/Concentration_Curls.webp",
+  "capa": "gifs/Concentration_Curls.jpg",
+  "fonte": "free-exercise-db (domínio público), imagens tratadas pelo Ex-Ficha"
+ },
+ {
+  "id": "Barbell_Curl",
+  "nome": "Rosca direta",
+  "nome_original": "Barbell Curl",
+  "traduzido": true,
+  "grupo": "Braços",
+  "musculos_principais": [
+   "bíceps"
+  ],
+  "musculos_secundarios": [
+   "antebraço"
+  ],
+  "equipamento": "barra",
+  "nivel": "iniciante",
+  "tipo": "força",
+  "forca": "puxar",
+  "mecanica": "isolado",
+  "passos": [
+   "Em pé, segura a barra com as palmas para cima.",
+   "Dobra os cotovelos levando a barra até o peito.",
+   "Desce devagar sem mover os cotovelos."
+  ],
+  "dica": "Sem balançar o corpo. Já balançou o bastante.",
+  "gif": "gifs/Barbell_Curl.webp",
+  "capa": "gifs/Barbell_Curl.jpg",
+  "fonte": "free-exercise-db (domínio público), imagens tratadas pelo Ex-Ficha"
+ },
+ {
+  "id": "Hammer_Curls",
+  "nome": "Rosca martelo",
+  "nome_original": "Hammer Curls",
+  "traduzido": true,
+  "grupo": "Braços",
+  "musculos_principais": [
+   "bíceps"
+  ],
+  "musculos_secundarios": [],
+  "equipamento": "halteres",
+  "nivel": "iniciante",
+  "tipo": "força",
+  "forca": "puxar",
+  "mecanica": "isolado",
+  "passos": [
+   "Em pé, halteres com as palmas viradas uma para a outra.",
+   "Sobe os halteres dobrando os cotovelos.",
+   "Desce controlando."
+  ],
+  "dica": "Martelo na mão e nenhuma porta pra bater.",
+  "gif": "gifs/Hammer_Curls.webp",
+  "capa": "gifs/Hammer_Curls.jpg",
+  "fonte": "free-exercise-db (domínio público), imagens tratadas pelo Ex-Ficha"
+ },
+ {
+  "id": "Triceps_Pushdown_-_Rope_Attachment",
+  "nome": "Tríceps na polia com corda",
+  "nome_original": "Triceps Pushdown - Rope Attachment",
+  "traduzido": true,
+  "grupo": "Braços",
+  "musculos_principais": [
+   "tríceps"
+  ],
+  "musculos_secundarios": [],
+  "equipamento": "polia",
+  "nivel": "iniciante",
+  "tipo": "força",
+  "forca": "empurrar",
+  "mecanica": "isolado",
+  "passos": [
+   "De frente para a polia alta, cotovelos colados ao corpo.",
+   "Empurra a corda para baixo abrindo as pontas no final.",
+   "Volta até os antebraços ficarem paralelos ao chão."
+  ],
+  "dica": "Abre a corda no final. Abre mão do resto.",
+  "gif": "gifs/Triceps_Pushdown_-_Rope_Attachment.webp",
+  "capa": "gifs/Triceps_Pushdown_-_Rope_Attachment.jpg",
+  "fonte": "free-exercise-db (domínio público), imagens tratadas pelo Ex-Ficha"
+ },
+ {
+  "id": "Triceps_Pushdown",
+  "nome": "Tríceps pulley",
+  "nome_original": "Triceps Pushdown",
+  "traduzido": true,
+  "grupo": "Braços",
+  "musculos_principais": [
+   "tríceps"
+  ],
+  "musculos_secundarios": [],
+  "equipamento": "polia",
+  "nivel": "iniciante",
+  "tipo": "força",
+  "forca": "empurrar",
+  "mecanica": "isolado",
+  "passos": [
+   "Segura a barra da polia alta com os cotovelos junto ao corpo.",
+   "Estica os braços empurrando para baixo.",
+   "Volta devagar."
+  ],
+  "dica": "Cotovelo parado. O resto da vida já se mexeu demais.",
+  "gif": "gifs/Triceps_Pushdown.webp",
+  "capa": "gifs/Triceps_Pushdown.jpg",
+  "fonte": "free-exercise-db (domínio público), imagens tratadas pelo Ex-Ficha"
+ },
+ {
+  "id": "EZ-Bar_Skullcrusher",
+  "nome": "Tríceps testa",
+  "nome_original": "EZ-Bar Skullcrusher",
+  "traduzido": true,
+  "grupo": "Braços",
+  "musculos_principais": [
+   "tríceps"
+  ],
+  "musculos_secundarios": [
+   "antebraço"
+  ],
+  "equipamento": "barra W",
+  "nivel": "iniciante",
+  "tipo": "força",
+  "forca": "empurrar",
+  "mecanica": "isolado",
+  "passos": [
+   "Deita com a barra W acima do peito.",
+   "Dobra os cotovelos levando a barra até perto da testa.",
+   "Estica os braços de volta."
+  ],
+  "dica": "Cuidado com a testa. Cabeça você já perdeu uma vez.",
+  "gif": "gifs/EZ-Bar_Skullcrusher.webp",
+  "capa": "gifs/EZ-Bar_Skullcrusher.jpg",
+  "fonte": "free-exercise-db (domínio público), imagens tratadas pelo Ex-Ficha"
+ },
+ {
+  "id": "Barbell_Squat",
+  "nome": "Agachamento livre",
+  "nome_original": "Barbell Squat",
+  "traduzido": true,
+  "grupo": "Pernas",
+  "musculos_principais": [
+   "quadríceps"
+  ],
+  "musculos_secundarios": [
+   "panturrilha",
+   "glúteos",
+   "posterior de coxa",
+   "lombar"
+  ],
+  "equipamento": "barra",
+  "nivel": "iniciante",
+  "tipo": "força",
+  "forca": "empurrar",
+  "mecanica": "multiarticular",
+  "passos": [
+   "Barra apoiada no trapézio, pés na largura dos ombros.",
+   "Desce como se fosse sentar, joelhos na direção dos pés.",
+   "Sobe empurrando o chão."
+  ],
+  "dica": "Ninguém pula perna por amor.",
+  "gif": "gifs/Barbell_Squat.webp",
+  "capa": "gifs/Barbell_Squat.jpg",
+  "fonte": "free-exercise-db (domínio público), imagens tratadas pelo Ex-Ficha"
+ },
+ {
+  "id": "Dumbbell_Lunges",
+  "nome": "Avanço com halteres",
+  "nome_original": "Dumbbell Lunges",
+  "traduzido": true,
+  "grupo": "Pernas",
+  "musculos_principais": [
+   "quadríceps"
+  ],
+  "musculos_secundarios": [
+   "panturrilha",
+   "glúteos",
+   "posterior de coxa"
+  ],
+  "equipamento": "halteres",
+  "nivel": "iniciante",
+  "tipo": "força",
+  "forca": "empurrar",
+  "mecanica": "multiarticular",
+  "passos": [
+   "Em pé com um halter em cada mão.",
+   "Dá um passo à frente e desce até o joelho de trás quase tocar o chão.",
+   "Volta e troca de perna."
+  ],
+  "dica": "Um passo à frente. Literalmente.",
+  "gif": "gifs/Dumbbell_Lunges.webp",
+  "capa": "gifs/Dumbbell_Lunges.jpg",
+  "fonte": "free-exercise-db (domínio público), imagens tratadas pelo Ex-Ficha"
+ },
+ {
+  "id": "Leg_Extensions",
+  "nome": "Cadeira extensora",
+  "nome_original": "Leg Extensions",
+  "traduzido": true,
+  "grupo": "Pernas",
+  "musculos_principais": [
+   "quadríceps"
+  ],
+  "musculos_secundarios": [],
+  "equipamento": "máquina",
+  "nivel": "iniciante",
+  "tipo": "força",
+  "forca": "empurrar",
+  "mecanica": "isolado",
+  "passos": [
+   "Senta com o rolo apoiado acima dos tornozelos.",
+   "Estica as pernas até ficarem retas.",
+   "Segura um segundo e desce devagar."
+  ],
+  "dica": "Estica a perna e segura. Segurar é a parte difícil.",
+  "gif": "gifs/Leg_Extensions.webp",
+  "capa": "gifs/Leg_Extensions.jpg",
+  "fonte": "free-exercise-db (domínio público), imagens tratadas pelo Ex-Ficha"
+ },
+ {
+  "id": "Seated_Leg_Curl",
+  "nome": "Cadeira flexora",
+  "nome_original": "Seated Leg Curl",
+  "traduzido": true,
+  "grupo": "Pernas",
+  "musculos_principais": [
+   "posterior de coxa"
+  ],
+  "musculos_secundarios": [],
+  "equipamento": "máquina",
+  "nivel": "iniciante",
+  "tipo": "força",
+  "forca": "puxar",
+  "mecanica": "isolado",
+  "passos": [
+   "Senta com o rolo atrás dos tornozelos e a trava sobre as coxas.",
+   "Puxa as pernas para baixo e para trás.",
+   "Volta devagar."
+  ],
+  "dica": "Posterior forte segura o resto.",
+  "gif": "gifs/Seated_Leg_Curl.webp",
+  "capa": "gifs/Seated_Leg_Curl.jpg",
+  "fonte": "free-exercise-db (domínio público), imagens tratadas pelo Ex-Ficha"
+ },
+ {
+  "id": "Barbell_Hip_Thrust",
+  "nome": "Elevação pélvica",
+  "nome_original": "Barbell Hip Thrust",
+  "traduzido": true,
+  "grupo": "Pernas",
+  "musculos_principais": [
+   "glúteos"
+  ],
+  "musculos_secundarios": [
+   "panturrilha",
+   "posterior de coxa"
+  ],
+  "equipamento": "barra",
+  "nivel": "intermediário",
+  "tipo": "powerlifting",
+  "forca": "empurrar",
+  "mecanica": "multiarticular",
+  "passos": [
+   "Costas apoiadas no banco, barra sobre o quadril.",
+   "Sobe o quadril até o corpo ficar reto dos ombros aos joelhos.",
+   "Desce devagar."
+  ],
+  "dica": "Sobe o quadril e a autoestima junto.",
+  "gif": "gifs/Barbell_Hip_Thrust.webp",
+  "capa": "gifs/Barbell_Hip_Thrust.jpg",
+  "fonte": "free-exercise-db (domínio público), imagens tratadas pelo Ex-Ficha"
+ },
+ {
+  "id": "Leg_Press",
+  "nome": "Leg press",
+  "nome_original": "Leg Press",
+  "traduzido": true,
+  "grupo": "Pernas",
+  "musculos_principais": [
+   "quadríceps"
+  ],
+  "musculos_secundarios": [
+   "panturrilha",
+   "glúteos",
+   "posterior de coxa"
+  ],
+  "equipamento": "máquina",
+  "nivel": "iniciante",
+  "tipo": "força",
+  "forca": "empurrar",
+  "mecanica": "multiarticular",
+  "passos": [
+   "Senta com as costas apoiadas e os pés na plataforma.",
+   "Destrava e desce até os joelhos formarem 90 graus.",
+   "Empurra de volta sem travar os joelhos."
+  ],
+  "dica": "Empurra o peso pra longe. Você é bom nisso.",
+  "gif": "gifs/Leg_Press.webp",
+  "capa": "gifs/Leg_Press.jpg",
+  "fonte": "free-exercise-db (domínio público), imagens tratadas pelo Ex-Ficha"
+ },
+ {
+  "id": "Lying_Leg_Curls",
+  "nome": "Mesa flexora",
+  "nome_original": "Lying Leg Curls",
+  "traduzido": true,
+  "grupo": "Pernas",
+  "musculos_principais": [
+   "posterior de coxa"
+  ],
+  "musculos_secundarios": [],
+  "equipamento": "máquina",
+  "nivel": "iniciante",
+  "tipo": "força",
+  "forca": "puxar",
+  "mecanica": "isolado",
+  "passos": [
+   "Deita de bruços com o rolo atrás dos tornozelos.",
+   "Dobra os joelhos trazendo os calcanhares em direção ao quadril.",
+   "Desce controlando."
+  ],
+  "dica": "Puxa o calcanhar. Deitado, mas não parado.",
+  "gif": "gifs/Lying_Leg_Curls.webp",
+  "capa": "gifs/Lying_Leg_Curls.jpg",
+  "fonte": "free-exercise-db (domínio público), imagens tratadas pelo Ex-Ficha"
+ },
+ {
+  "id": "Standing_Calf_Raises",
+  "nome": "Panturrilha em pé",
+  "nome_original": "Standing Calf Raises",
+  "traduzido": true,
+  "grupo": "Pernas",
+  "musculos_principais": [
+   "panturrilha"
+  ],
+  "musculos_secundarios": [],
+  "equipamento": "máquina",
+  "nivel": "iniciante",
+  "tipo": "força",
+  "forca": "empurrar",
+  "mecanica": "isolado",
+  "passos": [
+   "Ombros sob as almofadas, pontas dos pés no degrau.",
+   "Sobe o mais alto que der.",
+   "Desce até alongar a panturrilha."
+  ],
+  "dica": "Fica na ponta dos pés. Ela não vai aparecer na janela.",
+  "gif": "gifs/Standing_Calf_Raises.webp",
+  "capa": "gifs/Standing_Calf_Raises.jpg",
+  "fonte": "free-exercise-db (domínio público), imagens tratadas pelo Ex-Ficha"
+ },
+ {
+  "id": "Seated_Calf_Raise",
+  "nome": "Panturrilha sentado",
+  "nome_original": "Seated Calf Raise",
+  "traduzido": true,
+  "grupo": "Pernas",
+  "musculos_principais": [
+   "panturrilha"
+  ],
+  "musculos_secundarios": [],
+  "equipamento": "máquina",
+  "nivel": "iniciante",
+  "tipo": "força",
+  "forca": "empurrar",
+  "mecanica": "isolado",
+  "passos": [
+   "Senta com a almofada sobre as coxas e as pontas dos pés no apoio.",
+   "Sobe os calcanhares.",
+   "Desce devagar."
+  ],
+  "dica": "Sentado também dá pra subir.",
+  "gif": "gifs/Seated_Calf_Raise.webp",
+  "capa": "gifs/Seated_Calf_Raise.jpg",
+  "fonte": "free-exercise-db (domínio público), imagens tratadas pelo Ex-Ficha"
+ },
+ {
+  "id": "Romanian_Deadlift",
+  "nome": "Stiff romeno",
+  "nome_original": "Romanian Deadlift",
+  "traduzido": true,
+  "grupo": "Pernas",
+  "musculos_principais": [
+   "posterior de coxa"
+  ],
+  "musculos_secundarios": [
+   "panturrilha",
+   "glúteos",
+   "lombar"
+  ],
+  "equipamento": "barra",
+  "nivel": "intermediário",
+  "tipo": "força",
+  "forca": "puxar",
+  "mecanica": "multiarticular",
+  "passos": [
+   "Em pé com a barra na frente das coxas, joelhos levemente dobrados.",
+   "Leva o quadril para trás descendo a barra rente às pernas.",
+   "Sobe contraindo os glúteos."
+  ],
+  "dica": "Quadril pra trás. Pra trás só o quadril.",
+  "gif": "gifs/Romanian_Deadlift.webp",
+  "capa": "gifs/Romanian_Deadlift.jpg",
+  "fonte": "free-exercise-db (domínio público), imagens tratadas pelo Ex-Ficha"
+ },
+ {
+  "id": "Crunches",
+  "nome": "Abdominal",
+  "nome_original": "Crunches",
+  "traduzido": true,
+  "grupo": "Core",
+  "musculos_principais": [
+   "abdômen"
+  ],
+  "musculos_secundarios": [],
+  "equipamento": "peso do corpo",
+  "nivel": "iniciante",
+  "tipo": "força",
+  "forca": "puxar",
+  "mecanica": "isolado",
+  "passos": [
+   "Deita com os joelhos dobrados e as mãos atrás da cabeça.",
+   "Sobe o tronco contraindo o abdômen.",
+   "Desce sem relaxar de uma vez."
+  ],
+  "dica": "Sobe o tronco. A cabeça você ergue depois.",
+  "gif": "gifs/Crunches.webp",
+  "capa": "gifs/Crunches.jpg",
+  "fonte": "free-exercise-db (domínio público), imagens tratadas pelo Ex-Ficha"
+ },
+ {
+  "id": "Mountain_Climbers",
+  "nome": "Escalador",
+  "nome_original": "Mountain Climbers",
+  "traduzido": true,
+  "grupo": "Core",
+  "musculos_principais": [
+   "quadríceps"
+  ],
+  "musculos_secundarios": [
+   "peito",
+   "posterior de coxa",
+   "ombros"
+  ],
+  "equipamento": "nenhum",
+  "nivel": "iniciante",
+  "tipo": "pliometria",
+  "forca": "puxar",
+  "mecanica": "multiarticular",
+  "passos": [
+   "Posição de flexão com os braços esticados.",
+   "Traz um joelho em direção ao peito e volta.",
+   "Alterna as pernas rápido."
+  ],
+  "dica": "Corre sem sair do lugar. Treino, não metáfora.",
+  "gif": "gifs/Mountain_Climbers.webp",
+  "capa": "gifs/Mountain_Climbers.jpg",
+  "fonte": "free-exercise-db (domínio público), imagens tratadas pelo Ex-Ficha"
+ },
+ {
+  "id": "Plank",
+  "nome": "Prancha",
+  "nome_original": "Plank",
+  "traduzido": true,
+  "grupo": "Core",
+  "musculos_principais": [
+   "abdômen"
+  ],
+  "musculos_secundarios": [],
+  "equipamento": "peso do corpo",
+  "nivel": "iniciante",
+  "tipo": "força",
+  "forca": "estático",
+  "mecanica": "isolado",
+  "passos": [
+   "Apoia antebraços e pontas dos pés no chão.",
+   "Mantém o corpo reto da cabeça aos pés.",
+   "Segura o tempo combinado sem deixar o quadril cair."
+  ],
+  "dica": "Aguentar parado. Você tem experiência.",
+  "gif": "gifs/Plank.webp",
+  "capa": "gifs/Plank.jpg",
+  "fonte": "free-exercise-db (domínio público), imagens tratadas pelo Ex-Ficha"
+ },
+ {
+  "id": "Rope_Jumping",
+  "nome": "Pular corda",
+  "nome_original": "Rope Jumping",
+  "traduzido": true,
+  "grupo": "Core",
+  "musculos_principais": [
+   "quadríceps"
+  ],
+  "musculos_secundarios": [
+   "panturrilha",
+   "posterior de coxa"
+  ],
+  "equipamento": "outro",
+  "nivel": "intermediário",
+  "tipo": "cárdio",
+  "forca": null,
+  "mecanica": null,
+  "passos": [
+   "Segura as pontas da corda na altura do quadril.",
+   "Gira a corda com os punhos e pula com a ponta dos pés.",
+   "Mantém um ritmo que dê pra conversar."
+  ],
+  "dica": "Pula. A corda, não etapas.",
+  "gif": "gifs/Rope_Jumping.webp",
+  "capa": "gifs/Rope_Jumping.jpg",
+  "fonte": "free-exercise-db (domínio público), imagens tratadas pelo Ex-Ficha"
+ }
+]
