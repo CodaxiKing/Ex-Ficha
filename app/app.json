@@ -1,0 +1,45 @@
+{
+  "expo": {
+    "name": "Ex-Ficha",
+    "slug": "ex-ficha",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/logo-icon.png",
+    "scheme": "exficha",
+    "userInterfaceStyle": "dark",
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "app.exficha"
+    },
+    "android": {
+      "package": "app.exficha",
+      "adaptiveIcon": {
+        "backgroundColor": "#0b0909",
+        "foregroundImage": "./assets/images/logo-mark-hd.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "output": "single",
+      "favicon": "./assets/images/logo-mark.png",
+      "bundler": "metro"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#0b0909",
+          "image": "./assets/images/logo-mark-hd.png",
+          "imageWidth": 200
+        }
+      ],
+      "expo-font"
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
+    },
+    "backgroundColor": "#0b0909"
+  }
+}

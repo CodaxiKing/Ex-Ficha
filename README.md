@@ -9,6 +9,7 @@ App de treino para quem acabou de sair de um relacionamento: ficha nova, contado
 | Pasta | O que é |
 |---|---|
 | [`canvas/`](canvas/) | Canvas estilo Figma com todas as telas do app, componentes, banco de 100 frases, marca, landing page e prints da loja. Abra `canvas/index.html` no navegador. |
+| [`app/`](app/) | O app em Expo (iOS, Android e navegador): onboarding, ficha, treino, pânico, biblioteca, evolução. Veja o README da pasta. |
 | [`exercicios/`](exercicios/) | Base de 42 exercícios em português com GIFs do ExerciseDB no tratamento sombrio da marca, e o script que a gera. |
 
 ## Canvas
