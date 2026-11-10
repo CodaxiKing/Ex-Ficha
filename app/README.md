@@ -38,6 +38,15 @@ npm start         # QR code para o Expo Go no celular
 
 Sem as chaves, a tela do premium mostra os preços de referência e avisa que nada é cobrado. Em desenvolvimento aparece "Liberar premium (teste)".
 
+- **Lembretes e tela bloqueada:** bom dia, cobrança das 19h, hora perigosa às 22:47 (sexta e sábado, todas as noites ou nunca) e ficha vencendo. Cada notificação tem botões (Começar treino, Vou mandar mensagem, Escrever no diário, Ligar pro CVV) que abrem a tela certa. A tela Lembretes mostra a prévia da tela bloqueada com as próximas notificações reais. No primeiro dia, nada de Sem dó.
+- **Privacidade e termos:** textos no app (Perfil > Seus dados) e em `docs/` para publicar num link. Aceite obrigatório no fim do cadastro, com consentimento destacado para os dados de saúde (LGPD art. 11); quem já usava o app aceita na tela "Papelada". Excluir conta e "Esqueci a senha" na tela de conta.
+
+## Antes de publicar: privacidade e termos
+1. Preencha `RESPONSAVEL` em `src/lib/legal.ts` (nome ou razão social, CPF ou CNPJ, e-mail e encarregado de dados).
+2. Rode `npm run legal` para gerar `docs/privacidade.md` e `docs/termos.md` e publique num link (GitHub Pages serve). Use esse link na App Store e no Google Play.
+3. Revise os textos com um advogado. Se mudar algo importante, suba `VERSAO_TERMOS` para pedir novo aceite.
+4. No Supabase, rode de novo o `supabase/schema.sql` para criar a função `excluir_minha_conta`.
+
 ## Configurar a conta (Supabase)
 1. Crie um projeto em supabase.com.
 2. No SQL Editor, rode `supabase/schema.sql` (tabela `backups` com acesso só ao próprio dono).

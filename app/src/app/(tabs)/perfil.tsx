@@ -3,7 +3,6 @@ import { useState } from "react";
 import { Pressable, Switch, TextInput, View } from "react-native";
 
 import type { Pessoa } from "../../data/tipos";
-import { avisosDisponiveis, pedirPermissao } from "../../lib/avisos";
 import type { Nivel } from "../../lib/banco";
 import { curta, diaLocal, diasEntre, somarDias } from "../../lib/datas";
 import { OBJETIVOS } from "../../lib/ficha";
@@ -62,21 +61,11 @@ export default function Perfil() {
   const sairDoCalmo = useApp((e) => e.sairDoCalmo);
   const apagarTudo = useApp((e) => e.apagarTudo);
   const [apagar, setApagar] = useState(false);
-  const [semPermissao, setSemPermissao] = useState(false);
   if (!perfil) return null;
 
   const hoje = diaLocal(new Date());
   const dias = diasEntre(perfil.fim, hoje);
   const calmo = emCalmo(calmoAte);
-
-  const ligarAvisos = async (ativos: boolean) => {
-    if (ativos) {
-      const ok = await pedirPermissao();
-      setSemPermissao(!ok);
-      if (!ok) return;
-    }
-    atualizar({ avisos: { ...perfil.avisos, ativos } });
-  };
 
   return (
     <Tela>
@@ -174,40 +163,11 @@ export default function Perfil() {
       </View>
 
       <Titulo>Lembretes</Titulo>
-      {avisosDisponiveis ? (
-        <>
-          <View style={{ flexDirection: "row", alignItems: "center", gap: 12, marginTop: 10 }}>
-            <View style={{ flex: 1 }}>
-              <T>Bom dia, cobrança e avisos</T>
-              <T v="meta">Frases sorteadas, sem repetir. Nada no modo calmo.</T>
-            </View>
-            <Switch
-              value={perfil.avisos.ativos}
-              onValueChange={ligarAvisos}
-              trackColor={{ true: cor.vermelho, false: cor.elevado }}
-              thumbColor={cor.texto}
-              accessibilityLabel="Lembretes"
-            />
-          </View>
-          {semPermissao && (
-            <T v="meta" c={cor.pilulaTexto} style={{ marginTop: 6 }}>
-              Sem permissão de notificação. Libera nos ajustes do celular.
-            </T>
-          )}
-          {perfil.avisos.ativos && (
-            <Passo
-              rotulo="Bom dia às"
-              valor={`${perfil.avisos.hora}h`}
-              onMenos={() => atualizar({ avisos: { ...perfil.avisos, hora: Math.max(5, perfil.avisos.hora - 1) } })}
-              onMais={() => atualizar({ avisos: { ...perfil.avisos, hora: Math.min(11, perfil.avisos.hora + 1) } })}
-            />
-          )}
-        </>
-      ) : (
-        <T v="meta" style={{ marginTop: 6 }}>
-          Lembretes só funcionam no app do celular.
-        </T>
-      )}
+      <Item
+        titulo={perfil.avisos.ativos ? `Ligados · bom dia às ${perfil.avisos.hora}h` : "Desligados"}
+        sub="Veja como as frases chegam na tela bloqueada"
+        onPress={() => router.push("/avisos")}
+      />
 
       <Titulo>Quem te trocou</Titulo>
       <View style={{ gap: 8, marginTop: 10 }} accessibilityRole="radiogroup">
@@ -233,6 +193,10 @@ export default function Perfil() {
           <Opcao key={o.id} rotulo={o.rotulo} marcada={perfil.objetivo === o.id} onPress={() => perfil.objetivo !== o.id && novaFicha(o.id)} />
         ))}
       </View>
+
+      <Titulo>Seus dados</Titulo>
+      <Item titulo="Política de privacidade" sub="O que guardamos, onde e seus direitos (LGPD)" onPress={() => router.push("/privacidade")} />
+      <Item titulo="Termos de uso" sub="O app, o premium e o que ele não é" onPress={() => router.push("/termos")} />
 
       <Card style={{ marginTop: 28, backgroundColor: cor.panicoFundo }}>
         <T peso="semi">Apagar tudo</T>

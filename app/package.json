@@ -57,7 +57,8 @@
     "web": "expo start --web",
     "lint": "expo lint",
     "sync-exercicios": "node scripts/sync-exercicios.mjs",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "legal": "node --experimental-strip-types scripts/legal.mts"
   },
   "private": true
 }

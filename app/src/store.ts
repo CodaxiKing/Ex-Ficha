@@ -18,9 +18,10 @@ type Perfil = {
   inicio: string; // AAAA-MM-DD, o dia em que começou a usar o app
   apelido?: string;
   zoeira: Nivel; // L leve, M médio, S sem dó
-  avisos: { ativos: boolean; hora: number }; // hora do lembrete da manhã
+  avisos: { ativos: boolean; hora: number; noite?: "fds" | "todas" | "nunca" }; // hora do bom dia; aviso da hora perigosa
   pausadoEm?: string; // AAAA-MM-DD; voltou com a pessoa: o contador para aqui
   visualFixo?: boolean; // true: não clareia com o tempo (modo superou desligado)
+  consentimento?: { versao: number; em: string }; // aceite dos termos e do uso dos dados de saúde
 };
 
 type Panico = { crises: number; enviadas: number; flexoes: number };
@@ -91,6 +92,8 @@ type Estado = {
   /** Registra o humor do dia. Devolve true se entrou no modo calmo agora. */
   registrarHumor: (humor: Humor, texto: string) => boolean;
   sairDoCalmo: () => void;
+  /** Aceite dos termos, da privacidade e do tratamento dos dados de saúde (LGPD art. 11). */
+  aceitarTermos: (versao: number) => void;
   /** Recaída: pausa o contador (os dias ficam guardados). */
   pausarContador: () => void;
   /** Acabou de novo: retoma de onde parou, sem perder os dias guardados. */
@@ -383,6 +386,10 @@ export const useApp = create<Estado>()(
         return entrou;
       },
       sairDoCalmo: () => set({ calmoAte: null }),
+      aceitarTermos: (versao) => {
+        const p = get().perfil;
+        if (p) set({ perfil: { ...p, consentimento: { versao, em: new Date().toISOString() } } });
+      },
       pausarContador: () => {
         const p = get().perfil;
         if (p && !p.pausadoEm) set({ perfil: { ...p, pausadoEm: diaLocal(new Date()) } });

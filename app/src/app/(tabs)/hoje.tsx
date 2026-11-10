@@ -1,5 +1,6 @@
 import { Image } from "expo-image";
 import { router } from "expo-router";
+import { useState } from "react";
 import { Linking, Pressable, View } from "react-native";
 
 import { exercicio } from "../../data/exercicios";
@@ -9,7 +10,9 @@ import { minutosEstimados, proximoPlano } from "../../lib/ficha";
 import { calmo, frase, marco } from "../../lib/frases";
 import { diasDesdeOFim, diasTreinados, emCalmo, type Perfil, useApp } from "../../store";
 import { cor, faseAtual, raio } from "../../theme";
-import { Card, Chip, T, Tela, toque } from "../../ui/base";
+import { Botao, Card, Chip, T, Tela, toque } from "../../ui/base";
+import { VERSAO_TERMOS } from "../../lib/legal";
+import { Aceite } from "../../ui/aceite";
 import { useFrase } from "../../ui/frase";
 import { IcCheck, IcMensagemX, IcSeta } from "../../ui/icones";
 
@@ -18,6 +21,7 @@ export default function Hoje() {
   const ficha = useApp((e) => e.ficha);
   const calmoAte = useApp((e) => e.calmoAte);
   if (!perfil || !ficha) return null;
+  if ((perfil.consentimento?.versao ?? 0) < VERSAO_TERMOS) return <TermosNovos />;
   return emCalmo(calmoAte) ? <HojeCalmo ate={calmoAte!} /> : <HojeNormal perfil={perfil} ficha={ficha} />;
 }
 
@@ -366,6 +370,37 @@ function HojeNormal({ perfil, ficha }: { perfil: Perfil; ficha: Ficha }) {
         <Atalho titulo="Fotos" sub={fotos.length ? `${fotos.length} ${fotos.length === 1 ? "foto" : "fotos"}` : "O antes"} go="/fotos" />
       </View>
       )}
+    </Tela>
+  );
+}
+
+/** Quem já usava o app antes dos termos (ou de uma versão nova deles) aceita aqui. */
+function TermosNovos() {
+  const aceitar = useApp((e) => e.aceitarTermos);
+  const [ok, setOk] = useState(false);
+  return (
+    <Tela
+      rodape={
+        <>
+          <Aceite marcado={ok} onMudar={setOk} />
+          <Botao bloco desativado={!ok} style={{ marginTop: 12 }} onPress={() => aceitar(VERSAO_TERMOS)}>
+            Continuar
+          </Botao>
+          <Botao tipo="texto" onPress={() => router.push("/perfil")}>
+            Prefiro não: apagar meus dados
+          </Botao>
+        </>
+      }
+    >
+      <T v="gotica" tam={56} style={{ marginTop: 28 }} accessibilityRole="header">
+        Papelada.
+      </T>
+      <T tam={17} style={{ marginTop: 10, lineHeight: 25 }}>
+        Antes de continuar, a parte chata e importante: os termos de uso e a política de privacidade.
+      </T>
+      <T v="sub" style={{ marginTop: 12 }}>
+        Resumo: seus dados ficam no seu aparelho. Só vão pra nuvem se você criar uma conta, e as fotos nunca saem daqui. Nada de anúncio, nada de vender dado.
+      </T>
     </Tela>
   );
 }

@@ -6,6 +6,8 @@ import type { Objetivo, Pessoa } from "../../data/tipos";
 import { curta, diaLocal, somarDias } from "../../lib/datas";
 import { useApp } from "../../store";
 import { cor } from "../../theme";
+import { VERSAO_TERMOS } from "../../lib/legal";
+import { Aceite } from "../../ui/aceite";
 import { Barra, Botao, Opcao, Passo, Progresso, T, Tela, toque } from "../../ui/base";
 
 const PESSOAS: { id: Pessoa; rotulo: string }[] = [
@@ -30,18 +32,31 @@ const SOFRENCIA = [
 export default function Luto() {
   const { objetivo } = useLocalSearchParams<{ objetivo: Objetivo }>();
   const concluir = useApp((e) => e.concluirOnboarding);
+  const aceitarTermos = useApp((e) => e.aceitarTermos);
+  const [aceite, setAceite] = useState(false);
   const hoje = diaLocal(new Date());
   const [pessoa, setPessoa] = useState<Pessoa>("Ela");
   const [dias, setDias] = useState(14);
   const [sofrencia, setSofrencia] = useState(7);
 
   const terminar = () => {
+    if (!aceite) return;
     concluir({ pessoa, fim: somarDias(hoje, -dias), objetivo: objetivo ?? "massa", sofrencia });
+    aceitarTermos(VERSAO_TERMOS);
     router.replace("/hoje");
   };
 
   return (
-    <Tela rodape={<Botao bloco onPress={terminar}>Montar minha ficha</Botao>}>
+    <Tela
+      rodape={
+        <>
+          <Aceite marcado={aceite} onMudar={setAceite} />
+          <Botao bloco desativado={!aceite} onPress={terminar} style={{ marginTop: 12 }}>
+            Montar minha ficha
+          </Botao>
+        </>
+      }
+    >
       <Barra direita={<T v="meta">2 de 2</T>} />
       <Progresso total={2} feitos={2} />
       <T v="pergunta" accessibilityRole="header">

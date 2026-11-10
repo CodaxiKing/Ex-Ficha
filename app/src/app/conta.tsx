@@ -1,10 +1,11 @@
 import type { Session } from "@supabase/supabase-js";
 import { Image } from "expo-image";
+import { router } from "expo-router";
 import { useEffect, useState } from "react";
 import { TextInput, type TextInputProps, View } from "react-native";
 
 import { curta, diaLocal } from "../lib/datas";
-import { criarConta, entrar, fazerBackup, nuvemConfigurada, restaurarBackup, sair, supabase } from "../lib/nuvem";
+import { criarConta, entrar, esqueciSenha, excluirConta, fazerBackup, nuvemConfigurada, restaurarBackup, sair, supabase } from "../lib/nuvem";
 import { useApp } from "../store";
 import { cor, fonte } from "../theme";
 import { Barra, Botao, Card, T, Tela } from "../ui/base";
@@ -67,6 +68,7 @@ export default function Conta() {
   const [msg, setMsg] = useState<{ t: string; erro?: boolean } | null>(null);
   const [ocupado, setOcupado] = useState(false);
   const [restaurar, setRestaurar] = useState(false);
+  const [excluir, setExcluir] = useState(false);
 
   const rodar = async (f: () => Promise<void>) => {
     setOcupado(true);
@@ -151,6 +153,28 @@ export default function Conta() {
         <Botao tipo="texto" style={{ marginTop: 16, alignSelf: "flex-start", paddingHorizontal: 0 }} onPress={() => sair()}>
           Sair da conta
         </Botao>
+
+        <View style={{ marginTop: 24, padding: 16, borderRadius: 16, backgroundColor: cor.panicoFundo }}>
+          <T peso="semi">Excluir conta</T>
+          <T v="meta" c={cor.panicoTexto} style={{ marginTop: 2 }}>
+            Apaga a conta e o backup na nuvem, na hora e sem volta. O que está neste aparelho continua aqui.
+          </T>
+          <Botao
+            tipo="fantasma"
+            style={{ marginTop: 12, alignSelf: "flex-start", backgroundColor: excluir ? cor.panico : cor.elevado }}
+            desativado={ocupado}
+            onPress={() => {
+              if (!excluir) return setExcluir(true);
+              setExcluir(false);
+              rodar(async () => {
+                const r = await excluirConta();
+                setMsg(r.erro ? { t: r.erro, erro: true } : { t: "Conta excluída. Seus dados do aparelho continuam aqui." });
+              });
+            }}
+          >
+            {excluir ? "Toca de novo pra excluir" : "Excluir minha conta"}
+          </Botao>
+        </View>
       </Tela>
     );
   }
@@ -210,8 +234,31 @@ export default function Conta() {
           {msg.t}
         </T>
       )}
+      {modo === "entrar" && (
+        <Botao
+          tipo="texto"
+          style={{ alignSelf: "flex-start", paddingHorizontal: 0, marginTop: 4 }}
+          onPress={() =>
+            rodar(async () => {
+              if (!/\S+@\S+\.\S+/.test(email)) return setMsg({ t: "Digita o seu e-mail primeiro.", erro: true });
+              const r = await esqueciSenha(email.trim());
+              setMsg(r.erro ? { t: r.erro, erro: true } : { t: "Se esse e-mail tiver conta, chega um link pra trocar a senha." });
+            })
+          }
+        >
+          Esqueci a senha
+        </Botao>
+      )}
       <T v="meta" style={{ marginTop: 16 }}>
-        A conta só guarda o backup dos seus treinos. Seus dados não vão pra ninguém. Muito menos pra {ela}.
+        A conta só guarda o backup dos seus treinos. Seus dados não vão pra ninguém. Muito menos pra {ela}. Ao criar a conta, você concorda com os{" "}
+        <T v="meta" c={cor.texto} style={{ textDecorationLine: "underline" }} onPress={() => router.push("/termos")} accessibilityRole="link">
+          Termos de uso
+        </T>{" "}
+        e a{" "}
+        <T v="meta" c={cor.texto} style={{ textDecorationLine: "underline" }} onPress={() => router.push("/privacidade")} accessibilityRole="link">
+          Política de privacidade
+        </T>
+        .
       </T>
     </Tela>
   );

@@ -10,7 +10,7 @@ import { View } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { iniciarAssinatura } from "../lib/assinatura";
-import { reagendarAvisos } from "../lib/avisos";
+import { ouvirRespostas, reagendarAvisos } from "../lib/avisos";
 import { diaLocal, diasEntre } from "../lib/datas";
 import { DIAS_DA_FICHA } from "../lib/ficha";
 import { fazerBackup, nuvemConfigurada, sessaoAtual } from "../lib/nuvem";
@@ -39,6 +39,8 @@ function Avisos() {
     }, 800);
     return () => clearTimeout(t);
   }, [avisos, zoeira, pessoa, treinos, calmoAte, fichaDe]);
+  // Tocar na notificação (ou num botão dela) abre a tela certa.
+  useEffect(() => ouvirRespostas(), []);
   return null;
 }
 

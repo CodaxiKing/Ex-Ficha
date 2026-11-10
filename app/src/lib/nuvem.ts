@@ -92,3 +92,21 @@ export async function restaurarBackup(): Promise<{ erro?: string; vazio?: boolea
   useApp.getState().restaurar({ ...r.dados, fotos });
   return {};
 }
+
+/** Exclui a conta e o backup na nuvem (função excluir_minha_conta no schema). Os dados do aparelho ficam. */
+export async function excluirConta(): Promise<{ erro?: string }> {
+  const s = await sessaoAtual();
+  if (!supabase || !s) return { erro: "Entra na conta primeiro." };
+  const { error } = await supabase.rpc("excluir_minha_conta");
+  if (error) return { erro: `Não deu pra excluir: ${error.message}` };
+  await supabase.auth.signOut();
+  useApp.setState({ ultimoBackup: null });
+  return {};
+}
+
+/** Manda o e-mail de troca de senha. */
+export async function esqueciSenha(email: string): Promise<{ erro?: string }> {
+  if (!supabase) return { erro: "Conta ainda não configurada." };
+  const { error } = await supabase.auth.resetPasswordForEmail(email);
+  return error ? { erro: traduzirErro(error.message) } : {};
+}

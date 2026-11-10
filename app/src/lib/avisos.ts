@@ -1,8 +1,9 @@
 import * as Notifications from "expo-notifications";
 import { AndroidImportance } from "expo-notifications";
-import { Platform } from "react-native";
+import { router } from "expo-router";
+import { Linking, Platform } from "react-native";
 
-import type { Situacao } from "./banco";
+import type { Nivel, Situacao } from "./banco";
 import { CALMO } from "./banco";
 import { diaLocal, diasEntre, somarDias } from "./datas";
 import { DIAS_DA_FICHA, proximoPlano } from "./ficha";
@@ -15,10 +16,40 @@ const HORA_COBRANCA = 19;
 
 export const avisosDisponiveis = Platform.OS !== "web";
 
+/** Como os botões aparecem na notificação (tela bloqueada e central). */
+export type Categoria = "manha" | "treino" | "noite" | "calmo";
+export type Acao = { id: string; titulo: string };
+export const ACOES: Record<Categoria, Acao[]> = {
+  manha: [
+    { id: "treino", titulo: "Começar treino" },
+    { id: "diario", titulo: "Como eu tô" },
+  ],
+  treino: [
+    { id: "treino", titulo: "Começar treino" },
+    { id: "panico", titulo: "Vou mandar mensagem" },
+  ],
+  noite: [
+    { id: "panico", titulo: "Vou mandar mensagem" },
+    { id: "diario", titulo: "Escrever no diário" },
+  ],
+  calmo: [
+    { id: "cvv", titulo: "Ligar pro CVV · 188" },
+    { id: "diario", titulo: "Como eu tô" },
+  ],
+};
+
+export type Aviso = { data: Date; corpo: string; categoria: Categoria; url: string };
+
 if (avisosDisponiveis) {
   Notifications.setNotificationHandler({
     handleNotification: async () => ({ shouldShowBanner: true, shouldShowList: true, shouldPlaySound: false, shouldSetBadge: false }),
   });
+  for (const [id, acoes] of Object.entries(ACOES)) {
+    Notifications.setNotificationCategoryAsync(
+      id,
+      acoes.map((a) => ({ identifier: a.id, buttonTitle: a.titulo, options: { opensAppToForeground: true } }))
+    ).catch(() => {});
+  }
 }
 
 export async function pedirPermissao(): Promise<boolean> {
@@ -41,29 +72,30 @@ function quando(dia: string, hora: number, minuto = 0): Date {
 }
 
 /**
- * Cancela e reagenda os próximos dias de lembretes, sorteando frases sem repetir.
- * Manhã: acordar, marco do dia ou fim de semana. Noite: cobrança se não treinou.
- * Sexta e sábado: aviso de madrugada. Ficha vencendo: três dias antes.
- * No modo calmo: só um lembrete gentil de manhã.
+ * Monta os lembretes dos próximos dias, sorteando frases sem repetir. Não agenda nada:
+ * serve pro agendamento e pra prévia da tela bloqueada.
+ * Manhã: bom dia, marco do dia ou fim de semana. Noite: cobrança se não treinou.
+ * Hora perigosa (22:47): sexta e sábado, todas as noites ou nunca, como a pessoa escolher.
+ * Ficha vencendo: três dias antes. No modo calmo: só um lembrete gentil de manhã.
+ * No primeiro dia, nada de "Sem dó".
  */
-export async function reagendarAvisos(): Promise<number> {
-  if (!avisosDisponiveis) return 0;
-  await Notifications.cancelAllScheduledNotificationsAsync();
+export function planejarAvisos(agora = new Date()): { avisos: Aviso[]; memoria: Partial<Record<Situacao, string[]>> } {
   const { perfil, ficha, historico, calmoAte, recentes, premium } = useApp.getState();
-  if (!perfil?.avisos.ativos || !ficha) return 0;
-  const perm = await Notifications.getPermissionsAsync();
-  if (!perm.granted) return 0;
+  const memoria: Partial<Record<Situacao, string[]>> = { ...recentes };
+  if (!perfil || !ficha) return { avisos: [], memoria };
 
-  const nivel = nivelEfetivo(perfil, premium);
-  const agora = new Date();
   const hoje = diaLocal(agora);
   const treinouHoje = historico.some((t) => diaLocal(t.data) === hoje);
   const proximo = proximoPlano(ficha, historico).letra;
-  const memoria: Partial<Record<Situacao, string[]>> = { ...recentes };
-  const pedidos: { data: Date; corpo: string }[] = [];
+  const noiteModo = perfil.avisos.noite ?? "fds";
+  const avisos: Aviso[] = [];
 
-  const sortear = (sit: Situacao, vars = {}) => {
-    const r = sortearCom(sit, nivel, memoria[sit] ?? [], { treino: proximo, nome: perfil.apelido, ...vars });
+  const nivelDo = (dia: string): Nivel => {
+    const n = nivelEfetivo(perfil, premium);
+    return dia === perfil.inicio && n === "S" ? "M" : n;
+  };
+  const sortear = (sit: Situacao, dia: string, vars = {}) => {
+    const r = sortearCom(sit, nivelDo(dia), memoria[sit] ?? [], { treino: proximo, nome: perfil.apelido, ...vars });
     memoria[sit] = r.recentes;
     return frase(r.texto, perfil.pessoa, { treino: proximo, nome: perfil.apelido, ...vars });
   };
@@ -73,37 +105,76 @@ export async function reagendarAvisos(): Promise<number> {
     const calmo = emCalmo(calmoAte, dia);
     const semana = quando(dia, 12).getDay(); // 0 domingo, 5 sexta, 6 sábado
 
-    // Manhã
     const manha = quando(dia, perfil.avisos.hora);
     if (manha > agora) {
       const dias = perfil.pausadoEm ? -1 : diasEntre(perfil.fim, dia);
-      const corpo = calmo ? doDia(CALMO, dia) : (marco(dias, nivel) && frase(marco(dias, nivel)!, perfil.pessoa)) || sortear(semana === 0 || semana === 6 ? "fimDeSemana" : "acordar");
-      pedidos.push({ data: manha, corpo });
+      const m = marco(dias, nivelDo(dia));
+      const corpo = calmo ? doDia(CALMO, dia) : m ? frase(m, perfil.pessoa) : sortear(semana === 0 || semana === 6 ? "fimDeSemana" : "acordar", dia);
+      avisos.push({ data: manha, corpo, categoria: calmo ? "calmo" : "manha", url: calmo ? "/hoje" : `/treino/${proximo}` });
     }
     if (calmo) continue;
 
-    // Cobrança da noite (hoje só se ainda não treinou).
     const noite = quando(dia, HORA_COBRANCA);
-    if (noite > agora && !(i === 0 && treinouHoje)) pedidos.push({ data: noite, corpo: sortear("faltou") });
+    if (noite > agora && !(i === 0 && treinouHoje)) avisos.push({ data: noite, corpo: sortear("faltou", dia), categoria: "treino", url: `/treino/${proximo}` });
 
-    // Madrugada de sexta e sábado.
-    if (semana === 5 || semana === 6) {
-      const tarde = quando(dia, 23, 30);
-      if (tarde > agora) pedidos.push({ data: tarde, corpo: sortear("noite") });
-    }
+    const perigosa = noiteModo === "todas" || (noiteModo === "fds" && (semana === 5 || semana === 6));
+    const hora = quando(dia, 22, 47);
+    if (perigosa && hora > agora) avisos.push({ data: hora, corpo: sortear("noite", dia), categoria: "noite", url: "/panico" });
   }
 
-  // Ficha vencendo: três dias antes, ao meio-dia.
   const vence = somarDias(diaLocal(ficha.criadaEm), DIAS_DA_FICHA);
   const aviso = quando(somarDias(vence, -3), 12);
-  if (aviso > agora && !emCalmo(calmoAte, diaLocal(aviso))) pedidos.push({ data: aviso, corpo: sortear("fichaVencendo", { dias: 3 }) });
+  if (aviso > agora && !emCalmo(calmoAte, diaLocal(aviso)))
+    avisos.push({ data: aviso, corpo: sortear("fichaVencendo", diaLocal(aviso), { dias: 3 }), categoria: "treino", url: "/treinos" });
 
-  for (const p of pedidos) {
+  avisos.sort((a, b) => a.data.getTime() - b.data.getTime());
+  return { avisos, memoria };
+}
+
+/** Cancela e reagenda os lembretes. */
+export async function reagendarAvisos(): Promise<number> {
+  if (!avisosDisponiveis) return 0;
+  await Notifications.cancelAllScheduledNotificationsAsync();
+  const { perfil } = useApp.getState();
+  if (!perfil?.avisos.ativos) return 0;
+  const perm = await Notifications.getPermissionsAsync();
+  if (!perm.granted) return 0;
+
+  const { avisos, memoria } = planejarAvisos();
+  for (const a of avisos) {
     await Notifications.scheduleNotificationAsync({
-      content: { title: "Ex-Ficha", body: p.corpo },
-      trigger: { type: Notifications.SchedulableTriggerInputTypes.DATE, date: p.data, channelId: "lembretes" },
+      content: { title: "Ex-Ficha", body: a.corpo, categoryIdentifier: a.categoria, data: { url: a.url } },
+      trigger: { type: Notifications.SchedulableTriggerInputTypes.DATE, date: a.data, channelId: "lembretes" },
     });
   }
   useApp.setState({ recentes: memoria });
-  return pedidos.length;
+  return avisos.length;
+}
+
+/** Abre a tela certa quando a pessoa toca na notificação ou num botão dela. */
+export function abrirResposta(r: Notifications.NotificationResponse) {
+  const url = (r.notification.request.content.data?.url as string | undefined) ?? "/hoje";
+  const acao = r.actionIdentifier;
+  if (acao === "cvv") {
+    Linking.openURL("tel:188").catch(() => {});
+    return;
+  }
+  const destino =
+    acao === "panico" ? "/panico" : acao === "diario" ? "/diario" : acao === "treino" ? (url.startsWith("/treino/") ? url : "/treinos") : url;
+  router.push(destino as never);
+}
+
+/** Liga o tratamento das respostas, inclusive quando o app foi aberto pela notificação. */
+export function ouvirRespostas(): () => void {
+  if (!avisosDisponiveis) return () => {};
+  const ultima = Notifications.getLastNotificationResponse();
+  if (ultima) {
+    abrirResposta(ultima);
+    Notifications.clearLastNotificationResponse();
+  }
+  const sub = Notifications.addNotificationResponseReceivedListener((r) => {
+    abrirResposta(r);
+    Notifications.clearLastNotificationResponse();
+  });
+  return () => sub.remove();
 }
