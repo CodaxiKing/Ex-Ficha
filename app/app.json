@@ -4,7 +4,7 @@
     "slug": "ex-ficha",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/logo-icon.png",
+    "icon": "./assets/images/icon.png",
     "scheme": "exficha",
     "userInterfaceStyle": "dark",
     "ios": {
@@ -15,13 +15,14 @@
       "package": "app.exficha",
       "adaptiveIcon": {
         "backgroundColor": "#0b0909",
-        "foregroundImage": "./assets/images/logo-mark-hd.png"
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "monochromeImage": "./assets/images/adaptive-icon-mono.png"
       },
       "predictiveBackGestureEnabled": false
     },
     "web": {
       "output": "single",
-      "favicon": "./assets/images/logo-mark.png",
+      "favicon": "./assets/images/favicon.png",
       "bundler": "metro"
     },
     "plugins": [
